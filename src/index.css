@@ -1,0 +1,56 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:ital,opsz,wght@0,14..32,100..900;1,14..32,100..900&family=Space+Grotesk:wght@300..700&display=swap');
+@import "tailwindcss";
+
+@theme {
+  --color-brand-blue-light: #4c8cf5;
+  --color-brand-blue: #004ecc;
+  --color-brand-blue-dark: #002d80;
+  --color-brand-orange-light: #ff884d;
+  --color-brand-orange: #f26522;
+  --color-brand-orange-dark: #cc3f00;
+  --color-brand-dark: #07111e;
+  --color-brand-slate: #132238;
+  
+  --font-sans: "Inter", system-ui, -apple-system, sans-serif;
+  --font-display: "Space Grotesk", "Inter", sans-serif;
+}
+
+html {
+  scroll-behavior: smooth;
+}
+
+body {
+  font-family: var(--font-sans);
+  background-color: #fcfdfe;
+  color: #1e293b;
+  overflow-x: hidden;
+}
+
+/* Scrollbar Customization */
+::-webkit-scrollbar {
+  width: 10px;
+}
+
+::-webkit-scrollbar-track {
+  background: #07111e;
+}
+
+::-webkit-scrollbar-thumb {
+  background: #1e293b;
+  border-radius: 5px;
+  border: 2px solid #07111e;
+}
+
+::-webkit-scrollbar-thumb:hover {
+  background: #f26522;
+}
+
+/* Glowing effects */
+.glow-blue {
+  box-shadow: 0 0 30px -5px rgba(0, 78, 204, 0.4);
+}
+
+.glow-orange {
+  box-shadow: 0 0 30px -5px rgba(242, 101, 34, 0.4);
+}
+

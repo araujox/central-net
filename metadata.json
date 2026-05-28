@@ -1,0 +1,6 @@
+{
+  "name": "CentralNet",
+  "description": "CentralNet ou Central Telecomunicações - Provedor de internet fibra óptica e rastreamento veicular.",
+  "requestFramePermissions": [],
+  "majorCapabilities": ["MAJOR_CAPABILITY_SERVER_SIDE_GEMINI_API"]
+}
