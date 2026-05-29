@@ -9,8 +9,8 @@ import { CONTATO_CENTRALNET } from '../types';
 import CentralNetLogo from './CentralNetLogo';
 
 interface NavbarProps {
-  currentPage: 'home' | 'assine' | 'gps' | 'cnmovel' | 'dedicado' | 'ponto' | 'temporario';
-  setCurrentPage: (page: 'home' | 'assine' | 'gps' | 'cnmovel' | 'dedicado' | 'ponto' | 'temporario', tab?: 'residencial' | 'gamer' | 'casa-conectada' | 'radio' | 'empresarial') => void;
+  currentPage: 'home' | 'assine' | 'gps' | 'cnmovel' | 'dedicado' | 'ponto' | 'temporario' | 'contratos';
+  setCurrentPage: (page: 'home' | 'assine' | 'gps' | 'cnmovel' | 'dedicado' | 'ponto' | 'temporario' | 'contratos', tab?: 'residencial' | 'gamer' | 'casa-conectada' | 'radio' | 'empresarial') => void;
   scrollSection: (sectionId: string) => void;
 }
 
@@ -27,7 +27,7 @@ export default function Navbar({ currentPage, setCurrentPage, scrollSection }: N
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
-  const handleNav = (target: 'home' | 'assine' | 'gps' | 'cnmovel' | 'dedicado' | 'ponto' | 'temporario', sectionIdOrTab?: string) => {
+  const handleNav = (target: 'home' | 'assine' | 'gps' | 'cnmovel' | 'dedicado' | 'ponto' | 'temporario' | 'contratos', sectionIdOrTab?: string) => {
     const isTab = sectionIdOrTab && ['residencial', 'gamer', 'casa-conectada', 'radio', 'empresarial'].includes(sectionIdOrTab);
     
     if (isTab) {
@@ -210,7 +210,7 @@ export default function Navbar({ currentPage, setCurrentPage, scrollSection }: N
                   <button onClick={() => handleNav('home', 'contato')} className="w-full text-left px-4 py-2 hover:bg-slate-50 rounded-xl">
                     <p className="font-semibold text-xs text-slate-800">Fale Conosco</p>
                   </button>
-                  <button onClick={() => handleNav('home', 'contratos')} className="w-full text-left px-4 py-2 hover:bg-slate-50 rounded-xl">
+                  <button onClick={() => handleNav('contratos')} className="w-full text-left px-4 py-2 hover:bg-slate-50 rounded-xl">
                     <p className="font-semibold text-xs text-slate-800">Contratos e Regulamentos</p>
                   </button>
                   <a href="https://fast.com/pt/" target="_blank" rel="noopener noreferrer" className="w-full text-left px-4 py-2 hover:bg-slate-50 rounded-xl flex items-center justify-between">
@@ -363,7 +363,7 @@ export default function Navbar({ currentPage, setCurrentPage, scrollSection }: N
                 <div className="grid grid-cols-2 gap-1 mt-1">
                   <button onClick={() => handleNav('home', 'sobre')} className="text-left px-3 py-1.5 text-xs text-slate-755 hover:text-blue-600 rounded hover:bg-white">Sobre</button>
                   <button onClick={() => handleNav('home', 'contato')} className="text-left px-3 py-1.5 text-xs text-slate-755 hover:text-blue-600 rounded hover:bg-white">Fale Conosco</button>
-                  <button onClick={() => handleNav('home', 'contratos')} className="text-left px-3 py-1.5 text-xs text-slate-755 hover:text-blue-600 rounded hover:bg-white">Contratos</button>
+                  <button onClick={() => handleNav('contratos')} className="text-left px-3 py-1.5 text-xs text-slate-755 hover:text-blue-600 rounded hover:bg-white">Contratos</button>
                   <a href="https://fast.com/pt/" target="_blank" rel="noopener noreferrer" className="text-left px-3 py-1.5 text-xs text-slate-755 hover:text-blue-600 rounded hover:bg-white flex items-center gap-1">Velocímetro</a>
                 </div>
               </div>

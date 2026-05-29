@@ -8,12 +8,12 @@ import { CONTATO_CENTRALNET } from '../types';
 import CentralNetLogo from './CentralNetLogo';
 
 interface FooterProps {
-  setCurrentPage: (page: 'home' | 'assine' | 'gps' | 'cnmovel' | 'dedicado' | 'ponto' | 'temporario', tab?: 'residencial' | 'gamer' | 'casa-conectada' | 'radio' | 'empresarial') => void;
+  setCurrentPage: (page: 'home' | 'assine' | 'gps' | 'cnmovel' | 'dedicado' | 'ponto' | 'temporario' | 'contratos', tab?: 'residencial' | 'gamer' | 'casa-conectada' | 'radio' | 'empresarial') => void;
   scrollSection: (sectionId: string) => void;
 }
 
 export default function Footer({ setCurrentPage, scrollSection }: FooterProps) {
-  const handleNav = (target: 'home' | 'assine' | 'gps' | 'cnmovel' | 'dedicado' | 'ponto' | 'temporario', sectionIdOrTab?: string) => {
+  const handleNav = (target: 'home' | 'assine' | 'gps' | 'cnmovel' | 'dedicado' | 'ponto' | 'temporario' | 'contratos', sectionIdOrTab?: string) => {
     const isTab = sectionIdOrTab && ['residencial', 'gamer', 'casa-conectada', 'radio', 'empresarial'].includes(sectionIdOrTab);
     
     if (isTab) {
@@ -140,7 +140,7 @@ export default function Footer({ setCurrentPage, scrollSection }: FooterProps) {
                 </button>
               </li>
               <li>
-                <button onClick={() => handleNav('home', 'contratos')} className="hover:text-white transition-colors">
+                <button onClick={() => handleNav('contratos')} className="hover:text-white transition-colors">
                   Contratos
                 </button>
               </li>

@@ -22,9 +22,10 @@ import CnMovelPage from './pages/CnMovelPage';
 import DedicadoPage from './pages/DedicadoPage';
 import PontoPage from './pages/PontoPage';
 import TemporarioPage from './pages/TemporarioPage';
+import ContratosPage from './pages/ContratosPage';
 
 export default function App() {
-  const [currentPage, setCurrentPage] = useState<'home' | 'assine' | 'gps' | 'cnmovel' | 'dedicado' | 'ponto' | 'temporario'>('home');
+  const [currentPage, setCurrentPage] = useState<'home' | 'assine' | 'gps' | 'cnmovel' | 'dedicado' | 'ponto' | 'temporario' | 'contratos'>('home');
   const [activeFiberTab, setActiveFiberTab] = useState<'residencial' | 'gamer' | 'casa-conectada' | 'radio' | 'empresarial'>('residencial');
 
   // Detect and synchronize URL path or hash parameters for assine.php emulation
@@ -49,6 +50,8 @@ export default function App() {
         setCurrentPage('ponto');
       } else if (path.includes('temporario') || hash === '#temporario') {
         setCurrentPage('temporario');
+      } else if (path.includes('contratos') || hash === '#contratos') {
+        setCurrentPage('contratos');
       } else {
         setCurrentPage('home');
       }
@@ -65,7 +68,7 @@ export default function App() {
   }, []);
 
   // Sync state to URL hash to maintain proper history and sharing without server reloads
-  const handlePageChange = (page: 'home' | 'assine' | 'gps' | 'cnmovel' | 'dedicado' | 'ponto' | 'temporario', tab?: 'residencial' | 'gamer' | 'casa-conectada' | 'radio' | 'empresarial') => {
+  const handlePageChange = (page: 'home' | 'assine' | 'gps' | 'cnmovel' | 'dedicado' | 'ponto' | 'temporario' | 'contratos', tab?: 'residencial' | 'gamer' | 'casa-conectada' | 'radio' | 'empresarial') => {
     setCurrentPage(page);
     if (tab) {
       setActiveFiberTab(tab);
@@ -162,6 +165,12 @@ export default function App() {
         {currentPage === 'temporario' && (
           <div className="animate-fade-in">
             <TemporarioPage setCurrentPage={handlePageChange} />
+          </div>
+        )}
+
+        {currentPage === 'contratos' && (
+          <div className="animate-fade-in">
+            <ContratosPage setCurrentPage={handlePageChange} />
           </div>
         )}
       </div>
