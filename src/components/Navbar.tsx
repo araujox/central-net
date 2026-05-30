@@ -52,8 +52,8 @@ export default function Navbar({ currentPage, setCurrentPage, scrollSection }: N
     <header 
       className={`fixed top-0 left-0 right-0 z-40 transition-all duration-300 ${
         scrolled 
-          ? 'bg-white/95 backdrop-blur-md shadow-sm border-b border-slate-200/80 py-3' 
-          : 'bg-white/90 backdrop-blur-sm border-b border-slate-100/50 py-4'
+          ? 'bg-[#005CDC] shadow-lg border-b border-[#005CDC]/80 py-3 text-white' 
+          : 'bg-[#005CDC] border-b border-white/5 py-4 text-white'
       }`}
     >
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
@@ -64,17 +64,17 @@ export default function Navbar({ currentPage, setCurrentPage, scrollSection }: N
             onClick={() => handleNav('home')} 
             className="cursor-pointer group"
           >
-            <CentralNetLogo size="md" />
+            <CentralNetLogo size="md" theme="dark" />
           </div>
  
           {/* DESKTOP NAV */}
-          <nav className="hidden lg:flex items-center gap-1.5 font-medium text-sm text-slate-600">
+          <nav className="hidden lg:flex items-center gap-5 font-bold text-[13px] uppercase tracking-wider text-white">
             {/* Principal */}
             <button
               id="nav-principal"
               onClick={() => handleNav('home')}
-              className={`px-3 py-2 rounded-lg transition-colors hover:text-blue-600 ${
-                currentPage === 'home' ? 'text-blue-600 font-bold bg-blue-50/50' : 'text-slate-600'
+              className={`px-3 py-2 rounded-lg transition-colors hover:text-[#FFCC00] cursor-pointer ${
+                currentPage === 'home' ? 'text-[#FFCC00] font-black' : 'text-white'
               }`}
             >
               Principal
@@ -88,63 +88,42 @@ export default function Navbar({ currentPage, setCurrentPage, scrollSection }: N
             >
               <button
                 id="nav-para-voce"
-                className={`px-3 py-2 rounded-lg flex items-center gap-1 transition-colors hover:text-blue-600 ${
-                  activeDropdown === 'paraVoce' ? 'text-blue-600 bg-slate-50' : 'text-slate-600'
+                className={`px-3 py-2 rounded-lg flex items-center gap-1 transition-colors hover:text-[#FFCC00] cursor-pointer ${
+                  activeDropdown === 'paraVoce' ? 'text-[#FFCC00]' : 'text-white'
                 }`}
               >
-                Para Você <ChevronDown size={14} className={`transition-transform duration-200 ${activeDropdown === 'paraVoce' ? 'rotate-180' : ''}`} />
+                Para Você <ChevronDown size={14} className={`transition-transform duration-205 ${activeDropdown === 'paraVoce' ? 'rotate-180' : ''}`} />
               </button>
  
               {activeDropdown === 'paraVoce' && (
-                <div className="absolute left-0 mt-0.5 w-64 bg-white rounded-2xl shadow-xl border border-slate-100 p-2 animate-fade-in z-50">
-                  <button onClick={() => handleNav('assine', 'residencial')} className="w-full text-left px-4 py-2 hover:bg-slate-50 rounded-xl flex items-center gap-2">
-                    <Wifi size={16} className="text-blue-600" />
-                    <div>
-                      <p className="font-semibold text-xs text-slate-800">Fibra Óptica</p>
-                      <p className="text-[10px] text-slate-500">Residencial estável de alta velocidade</p>
-                    </div>
+                <div className="absolute left-0 mt-2.5 w-64 bg-[#0051C2] border border-white/10 rounded-2xl shadow-2xl p-2 animate-fadeIn z-50 text-left">
+                  <button onClick={() => handleNav('assine', 'residencial')} className="w-full text-left px-4 py-2.5 hover:bg-white/10 rounded-xl flex items-center gap-3 text-white cursor-pointer">
+                    <Wifi size={15} className="text-[#FFCC00]" />
+                    <span className="font-bold text-xs">Fibra Óptica</span>
                   </button>
-                  <button onClick={() => handleNav('assine', 'gamer')} className="w-full text-left px-4 py-2 hover:bg-slate-50 rounded-xl flex items-center gap-2">
-                    <Gamepad2 size={16} className="text-emerald-600" />
-                    <div>
-                      <p className="font-semibold text-xs text-slate-800">Planos Gamer</p>
-                      <p className="text-[10px] text-slate-500">Latência mínima e rotas dedicadas</p>
-                    </div>
+                  <button onClick={() => handleNav('assine', 'gamer')} className="w-full text-left px-4 py-2.5 hover:bg-white/10 rounded-xl flex items-center gap-3 text-white cursor-pointer">
+                    <Gamepad2 size={15} className="text-[#FFCC00]" />
+                    <span className="font-bold text-xs">Planos Gamer</span>
                   </button>
-                  <button onClick={() => handleNav('assine', 'casa-conectada')} className="w-full text-left px-4 py-2 hover:bg-slate-50 rounded-xl flex items-center gap-2">
-                    <Laptop size={16} className="text-amber-500" />
-                    <div>
-                      <p className="font-semibold text-xs text-slate-800">Casa Conectada</p>
-                      <p className="text-[10px] text-slate-500">Suporte a múltiplos Smart devices</p>
-                    </div>
+                  <button onClick={() => handleNav('assine', 'casa-conectada')} className="w-full text-left px-4 py-2.5 hover:bg-white/10 rounded-xl flex items-center gap-3 text-white cursor-pointer">
+                    <Laptop size={15} className="text-[#FFCC00]" />
+                    <span className="font-bold text-xs">Casa Conectada</span>
                   </button>
-                  <button onClick={() => handleNav('assine', 'radio')} className="w-full text-left px-4 py-2 hover:bg-slate-50 rounded-xl flex items-center gap-2">
-                    <Radio size={16} className="text-pink-500" />
-                    <div>
-                      <p className="font-semibold text-xs text-slate-800">Radiofrequência</p>
-                      <p className="text-[10px] text-slate-500">Conexão rural com estabilidade</p>
-                    </div>
+                  <button onClick={() => handleNav('assine', 'radio')} className="w-full text-left px-4 py-2.5 hover:bg-white/10 rounded-xl flex items-center gap-3 text-white cursor-pointer">
+                    <Radio size={15} className="text-[#FFCC00]" />
+                    <span className="font-bold text-xs">Rádio</span>
                   </button>
-                  <button onClick={() => handleNav('cnmovel')} className="w-full text-left px-4 py-2 hover:bg-slate-50 rounded-xl flex items-center gap-2">
-                    <Sparkles size={16} className="text-purple-600" />
-                    <div>
-                      <p className="font-semibold text-xs text-slate-800">CN Móvel</p>
-                      <p className="text-[10px] text-slate-500 font-bold text-orange-500">Chips móveis com rede de alto padrão</p>
-                    </div>
+                  <button onClick={() => handleNav('cnmovel')} className="w-full text-left px-4 py-2.5 hover:bg-white/10 rounded-xl flex items-center gap-3 text-white cursor-pointer">
+                    <Sparkles size={15} className="text-[#FFCC00]" />
+                    <span className="font-bold text-xs">CN Móvel</span>
                   </button>
-                  <button onClick={() => handleNav('home', 'para-voce')} className="w-full text-left px-4 py-2 hover:bg-slate-50 rounded-xl flex items-center gap-2">
-                    <Check size={16} className="text-teal-600" />
-                    <div>
-                      <p className="font-semibold text-xs text-slate-800">CN Vantagens</p>
-                      <p className="text-[10px] text-slate-500">Clube de descontos exclusivos</p>
-                    </div>
+                  <button onClick={() => handleNav('home', 'para-voce')} className="w-full text-left px-4 py-2.5 hover:bg-white/10 rounded-xl flex items-center gap-3 text-white cursor-pointer">
+                    <Check size={15} className="text-[#FFCC00]" />
+                    <span className="font-bold text-xs">CN Vantagens</span>
                   </button>
-                  <button onClick={() => handleNav('gps')} className="w-full text-left px-4 py-2 hover:bg-slate-50 rounded-xl flex items-center gap-2">
-                    <Shield size={16} className="text-rose-600" />
-                    <div>
-                      <p className="font-semibold text-xs text-slate-800">Rastreamento Veicular</p>
-                      <p className="text-[10px] text-slate-500">CN GPS integrado para frotas e carros</p>
-                    </div>
+                  <button onClick={() => handleNav('gps')} className="w-full text-left px-4 py-2.5 hover:bg-white/10 rounded-xl flex items-center gap-3 text-white cursor-pointer">
+                    <Shield size={15} className="text-[#FFCC00]" />
+                    <span className="font-bold text-xs">Rastreamento Veicular</span>
                   </button>
                 </div>
               )}
@@ -158,30 +137,26 @@ export default function Navbar({ currentPage, setCurrentPage, scrollSection }: N
             >
               <button
                 id="nav-para-empresas"
-                className={`px-3 py-2 rounded-lg flex items-center gap-1 transition-colors hover:text-blue-600 ${
-                  activeDropdown === 'paraEmpresas' ? 'text-blue-600 bg-slate-50' : 'text-slate-600'
+                className={`px-3 py-2 rounded-lg flex items-center gap-1 transition-colors hover:text-[#FFCC00] cursor-pointer ${
+                  activeDropdown === 'paraEmpresas' ? 'text-[#FFCC00]' : 'text-white'
                 }`}
               >
-                Para Empresas <ChevronDown size={14} className={`transition-transform duration-200 ${activeDropdown === 'paraEmpresas' ? 'rotate-180' : ''}`} />
+                Para Empresas <ChevronDown size={14} className={`transition-transform duration-205 ${activeDropdown === 'paraEmpresas' ? 'rotate-180' : ''}`} />
               </button>
  
               {activeDropdown === 'paraEmpresas' && (
-                <div className="absolute left-0 mt-0.5 w-60 bg-white rounded-2xl shadow-xl border border-slate-100 p-2 z-50">
-                  <button onClick={() => handleNav('dedicado')} className="w-full text-left px-4 py-2.5 hover:bg-slate-50 rounded-xl">
-                    <p className="font-bold text-xs text-slate-800">Link Dedicado</p>
-                    <p className="text-[10px] text-slate-500">Banda simétrica e 100% Garantido</p>
+                <div className="absolute left-0 mt-2.5 w-60 bg-[#0051C2] border border-white/10 rounded-2xl shadow-2xl p-2 z-50 text-left">
+                  <button onClick={() => handleNav('dedicado')} className="w-full text-left px-4 py-2.5 hover:bg-white/10 rounded-xl text-white cursor-pointer">
+                    <span className="font-bold text-xs">Link Dedicado</span>
                   </button>
-                  <button onClick={() => handleNav('assine', 'empresarial')} className="w-full text-left px-4 py-2.5 hover:bg-slate-50 rounded-xl">
-                    <p className="font-bold text-xs text-slate-800">Planos SOHO</p>
-                    <p className="text-[10px] font-bold text-orange-500">SOHO Gold, Platinum, Rubi e Diamond</p>
+                  <button onClick={() => handleNav('assine', 'empresarial')} className="w-full text-left px-4 py-2.5 hover:bg-white/10 rounded-xl text-white cursor-pointer">
+                    <span className="font-bold text-xs">Planos SOHO</span>
                   </button>
-                  <button onClick={() => handleNav('ponto')} className="w-full text-left px-4 py-2.5 hover:bg-slate-50 rounded-xl">
-                    <p className="font-bold text-xs text-slate-800">Ponto-a-Ponto</p>
-                    <p className="text-[10px] text-slate-500">Interligação blindada de filiais</p>
+                  <button onClick={() => handleNav('ponto')} className="w-full text-left px-4 py-2.5 hover:bg-white/10 rounded-xl text-white cursor-pointer">
+                    <span className="font-bold text-xs">Ponto-a-Ponto</span>
                   </button>
-                  <button onClick={() => handleNav('temporario')} className="w-full text-left px-4 py-2.5 hover:bg-slate-50 rounded-xl">
-                    <p className="font-bold text-xs text-slate-800">Link Temporário</p>
-                    <p className="text-[10px] text-slate-500">Conexão dedicada para shows e eventos</p>
+                  <button onClick={() => handleNav('temporario')} className="w-full text-left px-4 py-2.5 hover:bg-white/10 rounded-xl text-white cursor-pointer">
+                    <span className="font-bold text-xs">Link Temporário</span>
                   </button>
                 </div>
               )}
@@ -195,27 +170,27 @@ export default function Navbar({ currentPage, setCurrentPage, scrollSection }: N
             >
               <button
                 id="nav-atendimento"
-                className={`px-3 py-2 rounded-lg flex items-center gap-1 transition-colors hover:text-blue-600 ${
-                  activeDropdown === 'atendimento' ? 'text-blue-600 bg-slate-50' : 'text-slate-600'
+                className={`px-3 py-2 rounded-lg flex items-center gap-1 transition-colors hover:text-[#FFCC00] cursor-pointer ${
+                  activeDropdown === 'atendimento' ? 'text-[#FFCC00]' : 'text-white'
                 }`}
               >
-                Atendimento <ChevronDown size={14} className={`transition-transform duration-200 ${activeDropdown === 'atendimento' ? 'rotate-180' : ''}`} />
+                Atendimento <ChevronDown size={14} className={`transition-transform duration-205 ${activeDropdown === 'atendimento' ? 'rotate-180' : ''}`} />
               </button>
  
               {activeDropdown === 'atendimento' && (
-                <div className="absolute left-0 mt-0.5 w-56 bg-white rounded-2xl shadow-xl border border-slate-100 p-2 z-50">
-                  <button onClick={() => handleNav('home', 'sobre')} className="w-full text-left px-4 py-2 hover:bg-slate-50 rounded-xl">
-                    <p className="font-semibold text-xs text-slate-800">Sobre a CentralNet</p>
+                <div className="absolute left-0 mt-2.5 w-60 bg-[#0051C2] border border-white/10 rounded-2xl shadow-2xl p-2 z-50 text-left">
+                  <button onClick={() => handleNav('home', 'sobre')} className="w-full text-left px-4 py-2.5 hover:bg-white/10 rounded-xl text-white cursor-pointer">
+                    <span className="font-bold text-xs">Sobre a CentralNet</span>
                   </button>
-                  <button onClick={() => handleNav('home', 'contato')} className="w-full text-left px-4 py-2 hover:bg-slate-50 rounded-xl">
-                    <p className="font-semibold text-xs text-slate-800">Fale Conosco</p>
+                  <button onClick={() => handleNav('home', 'contato')} className="w-full text-left px-4 py-2.5 hover:bg-white/10 rounded-xl text-white cursor-pointer">
+                    <span className="font-bold text-xs">Fale Conosco</span>
                   </button>
-                  <button onClick={() => handleNav('contratos')} className="w-full text-left px-4 py-2 hover:bg-slate-50 rounded-xl">
-                    <p className="font-semibold text-xs text-slate-800">Contratos e Regulamentos</p>
+                  <button onClick={() => handleNav('contratos')} className="w-full text-left px-4 py-2.5 hover:bg-white/10 rounded-xl text-white cursor-pointer">
+                    <span className="font-bold text-xs">Contratos e Regulamentos</span>
                   </button>
-                  <a href="https://fast.com/pt/" target="_blank" rel="noopener noreferrer" className="w-full text-left px-4 py-2 hover:bg-slate-50 rounded-xl flex items-center justify-between">
-                    <p className="font-semibold text-xs text-slate-800">Teste de Velocidade</p>
-                    <ArrowUpRight size={12} className="text-slate-400" />
+                  <a href="https://fast.com/pt/" target="_blank" rel="noopener noreferrer" className="w-full text-left px-4 py-2.5 hover:bg-white/10 rounded-xl flex items-center justify-between text-white cursor-pointer">
+                    <span className="font-bold text-xs">Teste de Velocidade</span>
+                    <ArrowUpRight size={12} className="text-[#FFCC00]" />
                   </a>
                 </div>
               )}
@@ -223,55 +198,33 @@ export default function Navbar({ currentPage, setCurrentPage, scrollSection }: N
           </nav>
  
           {/* RIGHT ACTION BUTTONS */}
-          <div className="hidden lg:flex items-center gap-2">
-            {/* WhatsApp Link Icon */}
-            <a 
-              href={CONTATO_CENTRALNET.whatsappUrl}
-              target="_blank"
-              referrerPolicy="no-referrer"
-              rel="noopener noreferrer"
-              className="h-9 px-3 bg-emerald-50 text-emerald-700 hover:bg-emerald-100 border border-emerald-100 rounded-full flex items-center justify-center gap-1.5 transition-all duration-300 hover:scale-[1.02] active:scale-98 text-xs font-bold font-display shrink-0"
-            >
-              <Phone size={13} className="fill-emerald-600 stroke-none" />
-              <span>WhatsApp</span>
-            </a>
- 
+          <div className="hidden lg:flex items-center gap-8 font-bold text-[13px] uppercase tracking-wider text-white">
+            
             {/* Central do Assinante Link */}
             <a 
               href="https://sgp.centralnetsurubim.com.br/accounts/central/login"
               target="_blank"
               referrerPolicy="no-referrer"
               rel="noopener noreferrer"
-              className="h-9 px-3.5 text-blue-700 bg-blue-50 border border-blue-100 hover:bg-blue-110 rounded-full text-xs font-bold transition-all duration-300 flex items-center justify-center gap-1.5 hover:scale-[1.02] active:scale-98 shrink-0"
+              className="flex items-center gap-2 hover:text-[#FFCC00] transition-colors"
             >
-              <ShieldCheck size={13} className="text-blue-600" />
               <span>Central do Assinante</span>
+              {/* Gold/Yellow User icon with standard visual highlight */}
+              <div className="w-4.5 h-4.5 rounded-full bg-[#FFCC00] flex items-center justify-center text-[10px] text-blue-900 font-extrabold shadow-sm shrink-0">
+                👤
+              </div>
             </a>
  
-            {/* Assine Já CTA */}
+            {/* Assine Já CTA Link */}
             <button 
               onClick={() => handleNav('assine')}
-              className="h-9 px-4.5 bg-orange-500 hover:bg-orange-600 text-white rounded-full text-xs font-bold shadow-md shadow-orange-100 transition-all duration-300 hover:scale-[1.02] active:scale-98 shrink-0"
+              className="flex items-center gap-2 hover:text-[#FFCC00] transition-colors cursor-pointer"
             >
-              Assine Já
-            </button>
- 
-            {/* CN GPS Premium Action Button */}
-            <button
-              id="nav-rastreamento-direto"
-              onClick={() => handleNav('gps')}
-              className={`h-9 px-4 rounded-full transition-all duration-300 text-xs font-extrabold flex items-center justify-center gap-1.5 relative group/gps border shadow-md hover:scale-[1.02] active:scale-98 shrink-0 ${
-                currentPage === 'gps'
-                  ? 'bg-orange-600 text-white border-orange-650 shadow-orange-200/50'
-                  : 'bg-slate-900 text-white border-slate-950 hover:bg-slate-800'
-              }`}
-            >
-              <div className="relative flex h-1.5 w-1.5">
-                <span className={`animate-ping absolute inline-flex h-full w-full rounded-full opacity-75 ${currentPage === 'gps' ? 'bg-white' : 'bg-sky-400'}`}></span>
-                <span className={`relative inline-flex rounded-full h-1.5 w-1.5 ${currentPage === 'gps' ? 'bg-white' : 'bg-sky-500'}`}></span>
+              <span>Assine Já</span>
+              {/* Gold/Yellow pen check button */}
+              <div className="w-4.5 h-4.5 rounded-full bg-[#FFCC00] flex items-center justify-center text-[10px] text-blue-900 font-extrabold shadow-sm shrink-0">
+                ✍️
               </div>
-              <Shield size={13} className="shrink-0 transition-transform duration-300 group-hover/gps:rotate-12 text-sky-400" />
-              <span className="font-display tracking-tight">Rastreamento GPS</span>
             </button>
           </div>
  
@@ -279,13 +232,13 @@ export default function Navbar({ currentPage, setCurrentPage, scrollSection }: N
           <div className="lg:hidden flex items-center gap-2">
             <button
               onClick={() => handleNav('assine')}
-              className="bg-orange-500 hover:bg-orange-600 text-white px-3 py-1.5 rounded-full text-xs font-bold transition-all shadow-md"
+              className="bg-orange-500 hover:bg-orange-600 text-white px-3.5 py-1.5 rounded-full text-xs font-bold transition-all shadow-md cursor-pointer"
             >
               Assine Já
             </button>
             <button
               onClick={() => setMobileMenuOpen(!mobileMenuOpen)}
-              className="text-slate-600 hover:text-slate-900 p-2 rounded-lg bg-slate-50 transition-colors"
+              className="text-white hover:bg-white/10 p-2 rounded-lg bg-white/5 transition-colors cursor-pointer"
               aria-label="Toggle Menu"
             >
               {mobileMenuOpen ? <X size={20} /> : <Menu size={20} />}

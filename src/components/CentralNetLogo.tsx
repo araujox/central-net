@@ -42,12 +42,12 @@ export default function CentralNetLogo({
 
       {/* Brand Text Columns closely matching the original typeface and orange 'Central' style */}
       {showText && (
-        <div className="flex flex-col select-none">
+        <div className="flex flex-col select-none text-left">
           <span className={`${activeSize.textTitle} font-black tracking-tight leading-none font-display`}>
-            <span className="text-[#E38025]">Central</span>
+            <span className={theme === 'dark' ? 'text-white' : 'text-[#E38025]'}>Central</span>
             <span className={theme === 'dark' ? 'text-white' : 'text-[#0C82C6]'}>Net</span>
           </span>
-          <span className={`${activeSize.textSub} font-extrabold tracking-widest uppercase leading-none mt-1 text-slate-500`}>
+          <span className={`${activeSize.textSub} font-extrabold tracking-widest uppercase leading-none mt-1 ${theme === 'dark' ? 'text-white/60' : 'text-slate-500'}`}>
             Telecomunicações
           </span>
         </div>

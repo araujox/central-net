@@ -7,6 +7,9 @@ import { useState, useEffect } from 'react';
 import Navbar from './components/Navbar';
 import Hero from './components/Hero';
 import Beneficios from './components/Beneficios';
+import PlanosSection from './components/PlanosSection';
+import StreamingSection from './components/StreamingSection';
+import ChipCentralNetSection from './components/ChipCentralNetSection';
 import ParaVoce from './components/ParaVoce';
 import ParaEmpresas from './components/ParaEmpresas';
 import CentralAssinanteSection from './components/CentralAssinanteSection';
@@ -108,6 +111,15 @@ export default function App() {
             
             {/* Seção 2: Benefícios Principais */}
             <Beneficios />
+
+            {/* Seção 2A: Nossos Planos (Requested Figma) */}
+            <PlanosSection setCurrentPage={handlePageChange} />
+
+            {/* Seção 2B: Seção de Streaming (Requested Figma) */}
+            <StreamingSection />
+
+            {/* Seção 2C: Seção Chip CentralNet (Requested Figma) */}
+            <ChipCentralNetSection setCurrentPage={handlePageChange} />
             
             {/* Seção 3: Seção Para Você */}
             <ParaVoce setCurrentPage={handlePageChange} scrollSection={scrollSection} />

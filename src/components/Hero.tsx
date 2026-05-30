@@ -3,158 +3,151 @@
  * SPDX-License-Identifier: Apache-2.0
  */
 
-import { ArrowRight, MessageCircle, User, Shield, Zap, Sparkles, CheckCircle2 } from 'lucide-react';
+import { useState, useEffect, useRef } from 'react';
+import { ChevronLeft, ChevronRight, MessageCircle } from 'lucide-react';
 import { CONTATO_CENTRALNET } from '../types';
 
 interface HeroProps {
-  setCurrentPage: (page: 'home' | 'assine' | 'gps' | 'cnmovel') => void;
+  setCurrentPage: (page: 'home' | 'assine' | 'gps' | 'cnmovel' | 'dedicado' | 'ponto' | 'temporario' | 'contratos', tab?: 'residencial' | 'gamer' | 'casa-conectada' | 'radio' | 'empresarial') => void;
 }
 
+const HERO_SLIDES = [
+  {
+    image: '/Captura de tela 2026-05-30 102302.png',
+    alt: 'Internet acompanha sua rotina',
+    target: 'assine',
+    tab: 'residencial' as const
+  },
+  {
+    image: '/Captura de tela 2026-05-30 102321.png',
+    alt: 'A internet mais rápida da região',
+    target: 'assine',
+    tab: 'gamer' as const
+  },
+  {
+    image: '/Captura de tela 2026-05-30 102422.png',
+    alt: 'Benefícios e Planos CentralNet',
+    target: 'cnmovel',
+    tab: undefined
+  }
+];
+
 export default function Hero({ setCurrentPage }: HeroProps) {
+  const [activeIdx, setActiveIdx] = useState(0);
+  const [isHovered, setIsHovered] = useState(false);
+  const autoplayRef = useRef<NodeJS.Timeout | null>(null);
+
+  const nextSlide = () => {
+    setActiveIdx((prev) => (prev + 1) % HERO_SLIDES.length);
+  };
+
+  const prevSlide = () => {
+    setActiveIdx((prev) => (prev - 1 + HERO_SLIDES.length) % HERO_SLIDES.length);
+  };
+
+  useEffect(() => {
+    if (!isHovered) {
+      autoplayRef.current = setInterval(() => {
+        nextSlide();
+      }, 6000);
+    }
+    return () => {
+      if (autoplayRef.current) {
+        clearInterval(autoplayRef.current);
+      }
+    };
+  }, [isHovered]);
+
+  const handleSlideClick = (slide: typeof HERO_SLIDES[0]) => {
+    if (slide.target) {
+      setCurrentPage(slide.target as any, slide.tab);
+      window.scrollTo({ top: 0, behavior: 'smooth' });
+    }
+  };
+
   return (
-    <section id="principal" className="relative pt-32 pb-20 lg:pt-40 lg:pb-32 bg-slate-900 overflow-hidden">
-      {/* Abstract Grid + Glowing Orbs Background */}
-      <div className="absolute inset-0 bg-[linear-gradient(to_right,#1e293b1a_1px,transparent_1px),linear-gradient(to_bottom,#1e293b1a_1px,transparent_1px)] bg-[size:4rem_4rem] [mask-image:radial-gradient(ellipse_60%_50%_at_50%_0%,#000_70%,transparent_100%)] opacity-30"></div>
-      
-      <div className="absolute -top-40 -left-40 w-96 h-96 bg-blue-600/20 rounded-full filter blur-[100px] pointer-events-none"></div>
-      <div className="absolute top-1/2 -right-40 w-[500px] h-[500px] bg-orange-500/15 rounded-full filter blur-[150px] pointer-events-none"></div>
-
-      <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 relative z-10">
-        <div className="grid lg:grid-cols-12 gap-12 items-center">
-          
-          {/* LEFT SIDE: Headings and Actions */}
-          <div className="lg:col-span-7 space-y-8 text-center lg:text-left">
-            
-            {/* Tagline Badge */}
-            <div className="inline-flex items-center gap-2 px-3 py-1 bg-white/5 border border-white/10 rounded-full text-slate-200 text-xs font-semibold tracking-wide">
-              <span className="flex h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span>
-              <Sparkles size={14} className="text-orange-500" />
-              <span>Conexão Gigabit Real & Estabilidade Total</span>
-            </div>
-
-            {/* Main Heading */}
-            <h1 className="text-4xl sm:text-5xl lg:text-6xl font-black text-white tracking-tight leading-[1.1] font-display">
-              Internet fibra óptica para sua <span className="text-transparent bg-clip-text bg-gradient-to-r from-sky-400 to-blue-400">casa</span>, <span className="text-orange-500">empresa</span> e rotina digital.
-            </h1>
-
-            {/* Subtext */}
-            <p className="text-base sm:text-lg text-slate-300 max-w-2xl mx-auto lg:mx-0 leading-relaxed">
-              Planos de internet rápidos, estáveis e com suporte próximo para você navegar, jogar, trabalhar e assistir sem preocupação. Descubra a verdadeira velocidade em Surubim e região.
-            </p>
-
-            {/* Hero CTA Buttons Container (As specified by user - 4 Mandatory CTAs) */}
-            <div className="flex flex-col sm:flex-row flex-wrap justify-center lg:justify-start gap-3.5 pt-4">
-              
-              {/* Button 1: Assine agora */}
-              <button
-                id="hero-cta-assine"
-                onClick={() => setCurrentPage('assine')}
-                className="inline-flex items-center justify-center gap-2 bg-orange-500 hover:bg-orange-600 text-white font-bold px-7 py-4 rounded-xl shadow-lg shadow-orange-500/10 transition-all transform hover:scale-105 active:scale-95 duration-350 group cursor-pointer text-sm"
-              >
-                <span>Assine agora</span>
-                <ArrowRight size={18} className="transform group-hover:translate-x-1 transition-transform" />
-              </button>
-
-              {/* Button 2: Falar no WhatsApp */}
-              <a
-                id="hero-cta-whatsapp"
-                href={CONTATO_CENTRALNET.whatsappUrl}
-                target="_blank"
+    <section 
+      id="principal" 
+      className="relative w-full pt-[76px] lg:pt-[84px] overflow-hidden bg-[#005CDC] select-none group"
+      onMouseEnter={() => setIsHovered(true)}
+      onMouseLeave={() => setIsHovered(false)}
+    >
+      <div className="relative w-full aspect-[2.42/1] min-h-[280px] sm:min-h-[440px] md:min-h-[540px] lg:min-h-[580px] overflow-hidden">
+        
+        {/* Slides Track */}
+        <div 
+          className="flex h-full w-full transition-transform duration-700 ease-in-out"
+          style={{ transform: `translateX(-${activeIdx * 100}%)` }}
+        >
+          {HERO_SLIDES.map((slide, index) => (
+            <div 
+              key={index} 
+              onClick={() => handleSlideClick(slide)}
+              className="w-full h-full shrink-0 relative cursor-pointer active:scale-99 transition-transform duration-150"
+            >
+              <img 
+                src={slide.image} 
+                alt={slide.alt}
+                className="w-full h-full object-cover md:object-fill"
                 referrerPolicy="no-referrer"
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 bg-emerald-500 hover:bg-emerald-600 text-white font-bold px-7 py-4 rounded-xl shadow-md transition-all transform hover:scale-105 active:scale-95 duration-300 text-sm"
-              >
-                <MessageCircle size={18} className="fill-white stroke-none" />
-                <span>Falar no WhatsApp</span>
-              </a>
-
-              {/* Button 3: Acessar Central do Assinante */}
-              <a
-                id="hero-cta-central"
-                href="https://sgp.centralnetsurubim.com.br/accounts/central/login"
-                target="_blank"
-                referrerPolicy="no-referrer"
-                rel="noopener noreferrer"
-                className="inline-flex items-center justify-center gap-2 bg-slate-800 hover:bg-slate-700 text-slate-100 font-bold px-6 py-4 rounded-xl border border-white/10 transition-all transform hover:scale-105 active:scale-95 duration-300 text-sm"
-              >
-                <User size={18} className="text-blue-400" />
-                <span>Acessar Central do Assinante</span>
-              </a>
-
-              {/* Button 4: Conhecer Rastreamento Veicular */}
-              <button
-                id="hero-cta-gps"
-                onClick={() => setCurrentPage('gps')}
-                className="inline-flex items-center justify-center gap-2 bg-slate-900 hover:bg-slate-850 text-sky-400 font-bold px-6 py-4 rounded-xl border border-sky-500/30 hover:border-sky-400 transition-all transform hover:scale-105 active:scale-95 duration-300 text-sm"
-              >
-                <Shield size={18} className="text-sky-400" />
-                <span>Conhecer Rastreamento Veicular</span>
-              </button>
+              />
             </div>
-
-            {/* Micro Highlights */}
-            <div className="flex flex-wrap justify-center lg:justify-start items-center gap-6 pt-2 text-slate-400 text-xs font-semibold">
-              <span className="flex items-center gap-1.5">
-                <CheckCircle2 size={16} className="text-emerald-500" /> Wi-Fi Grátis Incluso
-              </span>
-              <span className="flex items-center gap-1.5">
-                <CheckCircle2 size={16} className="text-emerald-500" /> Sem Custo de Telefone
-              </span>
-              <span className="flex items-center gap-1.5">
-                <CheckCircle2 size={16} className="text-emerald-500" /> Suporte Técnico Exclusivo
-              </span>
-            </div>
-
-          </div>
-
-          {/* RIGHT SIDE: Immersive Interactive Concept Wireframe */}
-          <div className="lg:col-span-5 relative mt-6 lg:mt-0 flex justify-center">
-            <div className="relative w-full max-w-md p-6 bg-slate-800/40 rounded-3xl border border-white/10 shadow-2xl backdrop-blur-md overflow-hidden animate-pulse-[6000ms] group hover:border-sky-500/20 transition-all">
-              
-              {/* Outer decorative light streaks */}
-              <div className="absolute top-0 right-0 w-24 h-24 bg-brand-orange/10 rounded-full filter blur-xl"></div>
-              
-              {/* Speedometer Graphics */}
-              <div className="text-center space-y-4 relative z-10">
-                <p className="text-xs font-bold text-slate-400 tracking-wider uppercase">Indicador Técnico de Performance</p>
-                
-                <div className="w-56 h-56 mx-auto relative flex items-center justify-center">
-                  {/* Circular Arc SVG */}
-                  <svg className="w-full h-full transform -rotate-90" viewBox="0 0 100 100">
-                    <circle cx="50" cy="50" r="40" stroke="#1e293b" strokeWidth="8" fill="transparent" />
-                    <circle cx="50" cy="50" r="40" stroke="#f26522" strokeWidth="8" fill="transparent" strokeDasharray="251.2" strokeDashoffset="65" />
-                    <circle cx="50" cy="50" r="40" stroke="#004ecc" strokeWidth="2" fill="transparent" strokeDasharray="251.2" strokeDashoffset="120" />
-                  </svg>
-                  
-                  {/* Number display inside */}
-                  <div className="absolute flex flex-col items-center justify-center">
-                    <Zap size={32} className="text-brand-orange animate-bounce mb-1" />
-                    <span className="text-4xl font-extrabold text-white tracking-tight font-display">600<span className="text-lg">MB</span></span>
-                    <span className="text-[10px] text-emerald-400 font-bold bg-emerald-500/10 px-2 py-0.5 rounded-full mt-1">100% FIBRA ÓPTICA</span>
-                  </div>
-                </div>
-
-                <div className="grid grid-cols-2 gap-3 pt-2">
-                  <div className="bg-slate-900/50 p-3 rounded-2xl border border-white/5">
-                    <span className="text-[10px] font-bold text-slate-400 block mb-0.5 uppercase">Latência</span>
-                    <span className="text-base font-black text-emerald-400 font-display">2 ms</span>
-                  </div>
-                  <div className="bg-slate-900/50 p-3 rounded-2xl border border-white/5">
-                    <span className="text-[10px] font-bold text-slate-400 block mb-0.5 uppercase">Perda de Pacotes</span>
-                    <span className="text-base font-black text-emerald-400 font-display">0.0%</span>
-                  </div>
-                </div>
-
-                {/* Sub-label explaining stability */}
-                <p className="text-[11px] text-slate-400 leading-normal">
-                  Nossa rede de ultra-capacidade garante o menor ping, ideal para canais de streaming em altíssima definição e carregamentos instantâneos.
-                </p>
-              </div>
-
-            </div>
-          </div>
-
+          ))}
         </div>
+
+        {/* Overlay Navigation Arrows */}
+        <button
+          onClick={(e) => { e.stopPropagation(); prevSlide(); }}
+          className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-black/30 hover:bg-black/60 text-white flex items-center justify-center transition-all duration-300 md:opacity-0 group-hover:opacity-100 z-20 backdrop-blur-xs cursor-pointer hover:scale-105 active:scale-95"
+          aria-label="Slide anterior"
+        >
+          <ChevronLeft size={24} className="stroke-[2.5]" />
+        </button>
+
+        <button
+          onClick={(e) => { e.stopPropagation(); nextSlide(); }}
+          className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-black/30 hover:bg-black/60 text-white flex items-center justify-center transition-all duration-300 md:opacity-0 group-hover:opacity-100 z-20 backdrop-blur-xs cursor-pointer hover:scale-105 active:scale-95"
+          aria-label="Próximo slide"
+        >
+          <ChevronRight size={24} className="stroke-[2.5]" />
+        </button>
+
+        {/* Floating WhatsApp Quick Action strictly matching Figma overlay design */}
+        <div className="absolute right-6 bottom-6 z-20 hidden md:block group-hover:scale-102 transition-transform">
+          <a
+            href={CONTATO_CENTRALNET.whatsappUrl}
+            target="_blank"
+            referrerPolicy="no-referrer"
+            rel="noopener noreferrer"
+            className="flex items-center gap-3 bg-[#42C151] hover:bg-[#34a342] text-white px-5 py-3 rounded-full shadow-lg font-bold text-sm tracking-wide transition-all duration-300 transform cursor-pointer"
+          >
+            <span>Fale com nosso atendimento</span>
+            <div className="w-6 h-6 rounded-full bg-white flex items-center justify-center text-[#42C151]">
+              <MessageCircle size={14} className="fill-[#42C151] stroke-none" />
+            </div>
+          </a>
+        </div>
+
+        {/* Bottom Pager Dots */}
+        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2.5 z-20 bg-black/10 px-4 py-2 rounded-full backdrop-blur-xs">
+          {HERO_SLIDES.map((_, index) => (
+            <button
+              key={index}
+              onClick={(e) => { e.stopPropagation(); setActiveIdx(index); }}
+              className={`h-2.5 rounded-full transition-all duration-300 cursor-pointer ${
+                index === activeIdx ? 'w-8 bg-white' : 'w-2.5 bg-white/40 hover:bg-white/60'
+              }`}
+              title={`Ir para o slide ${index + 1}`}
+            />
+          ))}
+        </div>
+
+      </div>
+
+      {/* Screen Reader and Accessibility Descriptor Banner */}
+      <div className="sr-only">
+        <h2>CentralNet Banners Principais</h2>
+        <p>Acompanhe sua rotina com a internet mais estável, fibra óptica e atendimento especializado em Surubim e região.</p>
       </div>
     </section>
   );

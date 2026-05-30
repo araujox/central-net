@@ -12,6 +12,12 @@ export interface Plano {
   bannerPopular?: boolean;
   categoria: 'residencial' | 'gamer' | 'empresarial' | 'casa-conectada' | 'radio';
   apps?: string[];
+  pills?: string[];
+  appHeading?: string;
+  appHeadingPremium?: string;
+  appRows?: string[][];
+  appRowsPremium?: string[][];
+  valorDepois?: string;
 }
 
 export interface Cidade {
@@ -138,48 +144,137 @@ export const PLANOS_CENTRALNET: Plano[] = [
   // Residencial Plus (Imagem 1)
   {
     id: 'res-300m-gold',
-    nome: 'Plano GOLD PLUS',
+    nome: 'Plano BASIC',
     velocidade: '300 Mega',
-    preco: 'R$ 69,90',
+    preco: 'R$ 64,99',
     categoria: 'residencial',
-    apps: ['paramount-or-deezer', 'clube-vantagens'],
+    apps: ['watch'],
+    pills: [
+      'Roteador em comodato 5GHz/2,4GHz',
+      'TV Central no Celular',
+      'Instalação Grátis'
+    ],
+    appHeading: '1 App à sua escolha:',
+    appRows: [
+      ['exitlag', 'deezer', 'kaspersky', 'watch'],
+      ['empty', 'empty', 'empty', 'empty']
+    ],
     beneficios: [
       '100% Fibra Óptica ultra estável',
       'Roteador Premium Dual Band (5GHz/2,4GHz) em comodato',
       'Navegue e assista em HD/4K sem travamento',
-      'Apps Inclusos: Paramount+ ou Deezer',
-      'Acesso ao Clube de Vantagens Central'
-    ]
-  },
-  {
-    id: 'res-350m-sapphire',
-    nome: 'Plano SAPPHIRE PLUS',
-    velocidade: '350 Mega',
-    preco: 'R$ 77,90',
-    categoria: 'residencial',
-    bannerPopular: true,
-    apps: ['paramount-and-deezer', 'clube-vantagens'],
-    beneficios: [
-      'Velocidade Extra de 350 Mega em Fibra',
-      'Roteador Premium Dual Band (5GHz/2,4GHz) em comodato',
-      'Perfeito para Smart TVs, uploads e descargas rápidas',
-      'Apps Inclusos: Paramount+ e Deezer',
-      'Acesso ao Clube de Vantagens Central'
+      'Inclui: 1 App à sua escolha (ExitLag, Deezer, Kaspersky, Watch)',
+      'TV Central no Celular incluída',
+      'Instalação Totalmente Gratuita'
     ]
   },
   {
     id: 'res-500m-platinum',
-    nome: 'Plano PLATINUM PLUS',
+    nome: 'Plano PLUS',
     velocidade: '500 Mega',
-    preco: 'R$ 84,90',
+    preco: 'R$ 69,99',
     categoria: 'residencial',
-    apps: ['hbo-or-paramount', 'deezer', 'clube-vantagens'],
+    bannerPopular: true,
+    apps: ['watch'],
+    valorDepois: '74,99',
+    pills: [
+      'Roteador em comodato 5GHz/2,4GHz',
+      'TV Central no Celular',
+      'Instalação Grátis'
+    ],
+    appHeading: '1 App à sua escolha:',
+    appRows: [
+      ['exitlag', 'deezer', 'kaspersky', 'watch'],
+      ['empty', 'empty', 'empty', 'empty']
+    ],
     beneficios: [
       'Ultra Velocidade de 500 Mega em Fibra',
       'Roteador Premium Dual Band (5GHz/2,4GHz) em comodato',
-      'Uso simultâneo de múltiplos dispositivos sem oscilações',
-      'Apps Inclusos: HBO Max ou Paramount+ e Deezer',
-      'Acesso ao Clube de Vantagens Central'
+      'Perfeito para múltiplos dispositivos conectados simultaneamente',
+      'Inclui: 1 App à sua escolha (ExitLag, Deezer, Kaspersky, Watch)',
+      'Valor promocional por 3 meses (depois R$ 74,99/mês)',
+      'Instalação Totalmente Gratuita'
+    ]
+  },
+  {
+    id: 'casa-total-basic',
+    nome: 'Plano PRO',
+    velocidade: '600 Mega',
+    preco: 'R$ 89,99',
+    categoria: 'residencial',
+    apps: ['watch'],
+    pills: [
+      'Roteador em comodato 5GHz/2,4GHz',
+      'TV Central no Celular',
+      'Instalação Grátis'
+    ],
+    appHeading: '1 App à sua escolha:',
+    appRows: [
+      ['exitlag', 'deezer', 'kaspersky', 'watch'],
+      ['hbo', 'disney', 'empty', 'empty']
+    ],
+    beneficios: [
+      '600 Mega de banda ultra estável',
+      'Sinal forte com Dual Band em comodato',
+      'Ideal para automação e streaming de altíssima qualidade',
+      'Escolha entre 6 aplicativos excelentes (incluindo HBO Max, Disney+)',
+      'Clube de Vantagens e TV Central no Celular',
+      'Instalação Totalmente Gratuita'
+    ]
+  },
+  {
+    id: 'gamer-premium-800',
+    nome: 'Plano PRO',
+    velocidade: '800 Mega',
+    preco: 'R$ 104,99',
+    categoria: 'residencial',
+    apps: ['watch'],
+    pills: [
+      'até 2 Roteadores em comodato 5GHz/2,4GHz',
+      'Cabeamento Completo',
+      'Instalação Grátis',
+      'Wi-fi 6'
+    ],
+    appHeading: '1 App à sua escolha:',
+    appRows: [
+      ['exitlag', 'deezer', 'kaspersky', 'watch'],
+      ['empty', 'hbo', 'disney', 'empty']
+    ],
+    beneficios: [
+      '800 Mega para as maiores demandas de banda',
+      'Wi-Fi 6 de última geração com até 2 Roteadores',
+      'Perfeito para downloads imensos e streaming simultâneo',
+      'Escolha entre 6 aplicativos excelentes (incluindo HBO Max, Disney+)',
+      'Cabeamento completo incluso de brinde',
+      'Instalação Totalmente Gratuita'
+    ]
+  },
+  {
+    id: 'gigabit-premium-1000',
+    nome: 'Plano ULTRA',
+    velocidade: '1000 Mega',
+    preco: 'R$ 99,99',
+    categoria: 'residencial',
+    apps: ['watch'],
+    pills: [
+      'Roteador em comodato 5GHz/2,4GHz',
+      'Instalação Grátis'
+    ],
+    appHeading: '1 App Standard à sua escolha:',
+    appHeadingPremium: '1 App Premium à sua escolha:',
+    appRows: [
+      ['exitlag', 'deezer', 'kaspersky', 'nutri']
+    ],
+    appRowsPremium: [
+      ['prime', 'hbo', 'disney', 'watch']
+    ],
+    beneficios: [
+      '1 Giga (1000 Mega) - velocidade máxima residencial',
+      'Perfeito para famílias grandes com múltiplos aparelhos em 4K/8K',
+      '2 Apps Inclusos de sua escolha! (1 Standard + 1 Premium)',
+      'Crie sua própria combinação favorita de entretenimento',
+      'Roteador Gigabyte Premium em comodato',
+      'Instalação Totalmente Gratuita'
     ]
   },
   // Gamer (Imagens 2 e 3)

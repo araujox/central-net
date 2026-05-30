@@ -7,6 +7,77 @@ import { useState, useEffect } from 'react';
 import { MapPin, Search, Phone, ShieldCheck, Check, AlertCircle, Headphones, ArrowRight, Gamepad2, Laptop, Wifi, ArrowLeft, Radio, Sparkles, Tv, Music, Award, Smile } from 'lucide-react';
 import { PLANOS_CENTRALNET, CIDADES_CENTRALNET, CONTATO_CENTRALNET, Plano } from '../types';
 
+const renderAppBadge = (appName: string) => {
+  const normalizedAppName = appName.toLowerCase().trim();
+  switch (normalizedAppName) {
+    case 'exitlag':
+      return (
+        <div key="exitlag" className="flex items-center justify-center bg-[#710c0e] text-white font-extrabold rounded-md text-[6px] sm:text-[7.3px] tracking-tighter leading-none border border-[#8e1416]/50 h-5 w-11 sm:w-14 shrink-0 shadow-sm" title="ExitLag">
+          <span>EXITLAG</span>
+        </div>
+      );
+    case 'deezer':
+      return (
+        <div key="deezer" className="flex items-center justify-center gap-0.5 bg-[#a23efc] text-white font-black rounded-md text-[6px] sm:text-[7.3px] tracking-tighter leading-none border border-[#b666ff]/50 h-5 w-11 sm:w-14 shrink-0 shadow-sm" title="Deezer">
+          <svg className="w-1.5 h-1.5 fill-white shrink-0" viewBox="0 0 24 24">
+            <path d="M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z"/>
+          </svg>
+          <span>DEEZER</span>
+        </div>
+      );
+    case 'kaspersky':
+      return (
+        <div key="kaspersky" className="flex items-center justify-center gap-0.5 bg-[#00dd50] text-[#01220a] font-black rounded-md text-[5.5px] sm:text-[6.8px] tracking-tighter leading-none border border-[#2bf374]/50 h-5 w-11 sm:w-14 shrink-0 shadow-sm" title="Kaspersky">
+          <span className="text-[5px] font-black border border-[#01220a]/35 rounded-full w-2 h-2 flex items-center justify-center font-mono bg-white/45 scale-[0.8]">k</span>
+          <span>KASPERSKY</span>
+        </div>
+      );
+    case 'watch':
+      return (
+        <div key="watch" className="flex items-center justify-center bg-[#f26522] text-white font-black rounded-md text-[6px] sm:text-[7.3px] tracking-tighter leading-none border border-[#ff8e5a]/50 h-5 w-11 sm:w-14 shrink-0 shadow-sm" title="Watch">
+          <span>WATCH</span>
+        </div>
+      );
+    case 'hbo':
+    case 'hbo-max':
+      return (
+        <div key="hbo" className="flex items-center justify-center bg-[#4d07bc] text-white font-black rounded-md text-[6px] sm:text-[7.3px] tracking-tighter leading-none border border-[#7633e2]/50 h-5 w-11 sm:w-14 shrink-0 shadow-sm" title="HBO Max">
+          <span>HBO MAX</span>
+        </div>
+      );
+    case 'paramount-or-hbo':
+    case 'hbo-or-paramount':
+      return (
+        <div key="hbo" className="flex items-center justify-center bg-[#4d07bc] text-white font-black rounded-md text-[5px] sm:text-[6px] tracking-tighter leading-none border border-[#7633e2]/50 h-5 w-11 sm:w-14 shrink-0 shadow-sm" title="HBO ou Paramount+">
+          <span>HBO / PAR.</span>
+        </div>
+      );
+    case 'disney':
+      return (
+        <div key="disney" className="flex items-center justify-center bg-[#012431] text-white font-extrabold rounded-md text-[6px] sm:text-[7.3px] tracking-tighter leading-none border border-[#053d53]/50 h-5 w-11 sm:w-14 shrink-0 shadow-sm" title="Disney+">
+          <span>DISNEY+</span>
+        </div>
+      );
+    case 'nutri':
+      return (
+        <div key="nutri" className="flex items-center justify-center bg-[#f16321] text-white font-black rounded-md text-[6px] sm:text-[7.3px] tracking-tighter leading-none border border-[#ff874f]/50 h-5 w-11 sm:w-14 shrink-0 shadow-sm" title="Nutri">
+          <span>@NUTRI</span>
+        </div>
+      );
+    case 'prime':
+      return (
+        <div key="prime" className="flex items-center justify-center bg-[#00a8e1] text-white font-extrabold rounded-md text-[6px] sm:text-[7.3px] tracking-tighter leading-none border border-[#3acff5]/50 h-5 w-11 sm:w-14 shrink-0 shadow-sm" title="Prime Video">
+          <span>PRIME</span>
+        </div>
+      );
+    case 'empty':
+    default:
+      return (
+        <div key={Math.random()} className="bg-[#e4e3ea] rounded-md border border-[#cecddeb5] h-5 w-11 sm:w-14 shrink-0" />
+      );
+  }
+};
+
 interface AssinePageProps {
   setCurrentPage: (page: 'home' | 'assine' | 'gps' | 'cnmovel', tab?: 'residencial' | 'gamer' | 'casa-conectada' | 'radio' | 'empresarial') => void;
   activeFiberTab?: 'residencial' | 'gamer' | 'casa-conectada' | 'radio' | 'empresarial';
@@ -203,125 +274,166 @@ export default function AssinePage({ setCurrentPage, activeFiberTab }: AssinePag
                   </div>
 
                   {/* Apps Inclusos Badge Row */}
-                  {plano.apps && plano.apps.length > 0 && (
-                    <div className="space-y-2 bg-slate-50/50 p-3 rounded-2xl border border-slate-100/80">
-                      <p className="text-[9px] font-black text-slate-400 uppercase tracking-wider flex items-center gap-1">
-                        <span>Apps de Entretenimento Inclusos</span>
-                      </p>
-                      <div className="flex flex-wrap gap-1.5 pt-1">
-                        {plano.apps.map((appKey) => {
-                          if (appKey === 'paramount-or-deezer') {
-                            return (
-                              <div key={appKey} className="inline-flex items-center gap-1.5 bg-white border border-slate-100 rounded-lg p-1.5 text-[9px] font-bold text-slate-700 shadow-sm w-full justification-start">
-                                <span className="px-1.5 py-0.5 rounded-md bg-blue-900 text-white font-extrabold text-[8px] uppercase tracking-tight">Paramount+</span>
-                                <span className="text-slate-400 text-[8px] font-extrabold uppercase">ou</span>
-                                <span className="px-1.5 py-0.5 rounded-md bg-black text-white font-extrabold text-[8px] uppercase tracking-tight">Deezer</span>
+                  {plano.appHeading ? (
+                    <div className="space-y-3 bg-[#f5f4fa] p-4 rounded-2xl border border-slate-200/50 text-center sm:text-left">
+                      {plano.appHeadingPremium ? (
+                        <div className="space-y-3">
+                          {/* Standard selection */}
+                          <div className="space-y-1">
+                            <span className="text-[8.5px] text-[#005cdc] font-black block leading-none tracking-tight">
+                              {plano.appHeading}
+                            </span>
+                            <div className="flex items-center gap-1 mt-1 justify-center sm:justify-start">
+                              {plano.appRows?.[0].map((badge) => renderAppBadge(badge))}
+                            </div>
+                          </div>
+                          {/* Premium selection */}
+                          <div className="space-y-1">
+                            <span className="text-[8.5px] text-[#005cdc] font-black block leading-none tracking-tight">
+                              {plano.appHeadingPremium}
+                            </span>
+                            <div className="flex items-center gap-1 mt-1 justify-center sm:justify-start">
+                              {plano.appRowsPremium?.[0].map((badge) => renderAppBadge(badge))}
+                            </div>
+                          </div>
+                        </div>
+                      ) : (
+                        // Standard selection for 300, 500, 600, 800
+                        <div className="space-y-1">
+                          <span className="text-[8.5px] text-[#005cdc] font-black block leading-none tracking-tight">
+                            {plano.appHeading}
+                          </span>
+                          <div className="space-y-1.5 mt-1.5">
+                            {plano.appRows?.map((row, idx) => (
+                              <div key={idx} className="flex items-center gap-1 justify-center sm:justify-start">
+                                {row.map((badge) => renderAppBadge(badge))}
                               </div>
-                            );
-                          }
-                          if (appKey === 'paramount-and-deezer') {
-                            return (
-                              <div key={appKey} className="inline-flex items-center gap-1.5 bg-white border border-slate-100 rounded-lg p-1.5 text-[9px] font-bold text-slate-700 shadow-sm w-full justification-start">
-                                <span className="px-1.5 py-0.5 rounded-md bg-blue-900 text-white font-extrabold text-[8px] uppercase tracking-tight">Paramount+</span>
-                                <span className="text-emerald-500 text-[9px] font-extrabold">&</span>
-                                <span className="px-1.5 py-0.5 rounded-md bg-black text-white font-extrabold text-[8px] uppercase tracking-tight">Deezer</span>
-                              </div>
-                            );
-                          }
-                          if (appKey === 'hbo-or-paramount') {
-                            return (
-                              <div key={appKey} className="inline-flex items-center gap-1.5 bg-white border border-slate-100 rounded-lg p-1.5 text-[9px] font-bold text-slate-700 shadow-sm w-full justification-start">
-                                <span className="px-1.5 py-0.5 rounded-md bg-violet-600 text-white font-extrabold text-[8px] uppercase tracking-tight">Max (HBO)</span>
-                                <span className="text-slate-400 text-[8px] font-extrabold uppercase">ou</span>
-                                <span className="px-1.5 py-0.5 rounded-md bg-blue-900 text-white font-extrabold text-[8px] uppercase tracking-tight">Paramount+</span>
-                              </div>
-                            );
-                          }
-                          if (appKey === 'paramount-or-hbo') {
-                            return (
-                              <div key={appKey} className="inline-flex items-center gap-1.5 bg-white border border-slate-100 rounded-lg p-1.5 text-[9px] font-bold text-slate-700 shadow-sm w-full justification-start">
-                                <span className="px-1.5 py-0.5 rounded-md bg-blue-900 text-white font-extrabold text-[8px] uppercase tracking-tight">Paramount+</span>
-                                <span className="text-slate-400 text-[8px] font-extrabold uppercase">ou</span>
-                                <span className="px-1.5 py-0.5 rounded-md bg-violet-600 text-white font-extrabold text-[8px] uppercase tracking-tight">Max (HBO)</span>
-                              </div>
-                            );
-                          }
-                          if (appKey === 'hbo-max') {
-                            return (
-                              <span key={appKey} className="inline-flex items-center gap-1 bg-violet-50 hover:bg-violet-100/60 border border-violet-100 px-2 py-1 rounded-full text-[9px] font-black text-violet-700 shadow-xs transition-all">
-                                <Tv size={9} className="stroke-[2.5]" />
-                                <span>Max (HBO)</span>
-                              </span>
-                            );
-                          }
-                          if (appKey === 'deezer') {
-                            return (
-                              <span key={appKey} className="inline-flex items-center gap-1 bg-zinc-900 hover:bg-black border border-zinc-850 px-2 py-1 rounded-full text-[9px] font-black text-white shadow-xs transition-all">
-                                <Music size={9} className="text-purple-400 stroke-[2.5]" />
-                                <span>Deezer</span>
-                              </span>
-                            );
-                          }
-                          if (appKey === 'paramount') {
-                            return (
-                              <span key={appKey} className="inline-flex items-center gap-1 bg-blue-50 hover:bg-blue-100/60 border border-blue-100 px-2 py-1 rounded-full text-[9px] font-black text-blue-800 shadow-xs transition-all">
-                                <Tv size={9} className="stroke-[2.5]" />
-                                <span>Paramount+</span>
-                              </span>
-                            );
-                          }
-                          if (appKey === 'noggin') {
-                            return (
-                              <span key={appKey} className="inline-flex items-center gap-1 bg-orange-50 hover:bg-orange-100/60 border border-orange-100 px-2 py-1 rounded-full text-[9px] font-black text-orange-700 shadow-xs transition-all">
-                                <Smile size={9} className="stroke-[2.5]" />
-                                <span>Noggin by Nick Jr.</span>
-                              </span>
-                            );
-                          }
-                          if (appKey === 'clube-vantagens') {
-                            return (
-                              <span key={appKey} className="inline-flex items-center gap-1 bg-amber-50 hover:bg-amber-100/60 border border-amber-200/50 px-2 py-1 rounded-full text-[9px] font-black text-amber-700 shadow-xs transition-all w-full md:w-auto">
-                                <Award size={10} className="stroke-[2.5] text-amber-600 shrink-0" />
-                                <span>Clube de Vantagens Central</span>
-                              </span>
-                            );
-                          }
-                          if (appKey === 'plus-1-app') {
-                            return (
-                              <span key={appKey} className="inline-flex items-center gap-1 bg-sky-50 hover:bg-sky-100/60 border border-sky-100 px-2 py-1 rounded-full text-[9px] font-black text-sky-700 shadow-xs transition-all">
-                                <Sparkles size={9} className="stroke-[2.5]" />
-                                <span>+1 App à escolha</span>
-                              </span>
-                            );
-                          }
-                          if (appKey === 'plus-2-apps') {
-                            return (
-                              <span key={appKey} className="inline-flex items-center gap-1 bg-teal-50 hover:bg-teal-100/60 border border-teal-105 px-2 py-1 rounded-full text-[9px] font-black text-teal-700 shadow-xs transition-all">
-                                <Sparkles size={9} className="stroke-[2.5]" />
-                                <span>+2 Apps à escolha</span>
-                              </span>
-                            );
-                          }
-                          if (appKey === 'plus-5-apps') {
-                            return (
-                              <span key={appKey} className="inline-flex items-center gap-1 bg-indigo-50 hover:bg-indigo-100/60 border border-indigo-100 px-2 py-1 rounded-full text-[9px] font-black text-indigo-700 shadow-xs transition-all">
-                                <Sparkles size={9} className="stroke-[2.5]" />
-                                <span>+5 Apps à escolha</span>
-                              </span>
-                            );
-                          }
-                          if (appKey === 'plus-6-apps') {
-                            return (
-                              <span key={appKey} className="inline-flex items-center gap-1 bg-emerald-50 hover:bg-emerald-100/60 border border-emerald-100 px-2 py-1 rounded-full text-[9px] font-black text-emerald-700 shadow-xs transition-all">
-                                <Sparkles size={9} className="stroke-[2.5]" />
-                                <span>+6 Apps à escolha (MESH)</span>
-                              </span>
-                            );
-                          }
-                          return null;
-                        })}
-                      </div>
+                            ))}
+                          </div>
+                        </div>
+                      )}
                     </div>
+                  ) : (
+                    plano.apps && plano.apps.length > 0 && (
+                      <div className="space-y-2 bg-slate-50/50 p-3 rounded-2xl border border-slate-100/80">
+                        <p className="text-[9px] font-black text-slate-400 uppercase tracking-wider flex items-center gap-1">
+                          <span>Apps de Entretenimento Inclusos</span>
+                        </p>
+                        <div className="flex flex-wrap gap-1.5 pt-1">
+                          {plano.apps.map((appKey) => {
+                            if (appKey === 'paramount-or-deezer') {
+                              return (
+                                <div key={appKey} className="inline-flex items-center gap-1.5 bg-white border border-slate-100 rounded-lg p-1.5 text-[9px] font-bold text-slate-700 shadow-sm w-full justification-start">
+                                  <span className="px-1.5 py-0.5 rounded-md bg-blue-900 text-white font-extrabold text-[8px] uppercase tracking-tight">Paramount+</span>
+                                  <span className="text-slate-400 text-[8px] font-extrabold uppercase">ou</span>
+                                  <span className="px-1.5 py-0.5 rounded-md bg-black text-white font-extrabold text-[8px] uppercase tracking-tight">Deezer</span>
+                                </div>
+                              );
+                            }
+                            if (appKey === 'paramount-and-deezer') {
+                              return (
+                                <div key={appKey} className="inline-flex items-center gap-1.5 bg-white border border-slate-100 rounded-lg p-1.5 text-[9px] font-bold text-slate-700 shadow-sm w-full justification-start">
+                                  <span className="px-1.5 py-0.5 rounded-md bg-blue-900 text-white font-extrabold text-[8px] uppercase tracking-tight">Paramount+</span>
+                                  <span className="text-emerald-500 text-[9px] font-extrabold">&</span>
+                                  <span className="px-1.5 py-0.5 rounded-md bg-black text-white font-extrabold text-[8px] uppercase tracking-tight">Deezer</span>
+                                </div>
+                              );
+                            }
+                            if (appKey === 'hbo-or-paramount') {
+                              return (
+                                <div key={appKey} className="inline-flex items-center gap-1.5 bg-white border border-slate-100 rounded-lg p-1.5 text-[9px] font-bold text-slate-700 shadow-sm w-full justification-start">
+                                  <span className="px-1.5 py-0.5 rounded-md bg-violet-600 text-white font-extrabold text-[8px] uppercase tracking-tight">Max (HBO)</span>
+                                  <span className="text-slate-400 text-[8px] font-extrabold uppercase">ou</span>
+                                  <span className="px-1.5 py-0.5 rounded-md bg-blue-900 text-white font-extrabold text-[8px] uppercase tracking-tight">Paramount+</span>
+                                </div>
+                              );
+                            }
+                            if (appKey === 'paramount-or-hbo') {
+                              return (
+                                <div key={appKey} className="inline-flex items-center gap-1.5 bg-white border border-slate-100 rounded-lg p-1.5 text-[9px] font-bold text-slate-700 shadow-sm w-full justification-start">
+                                  <span className="px-1.5 py-0.5 rounded-md bg-blue-900 text-white font-extrabold text-[8px] uppercase tracking-tight">Paramount+</span>
+                                  <span className="text-slate-400 text-[8px] font-extrabold uppercase">ou</span>
+                                  <span className="px-1.5 py-0.5 rounded-md bg-violet-600 text-white font-extrabold text-[8px] uppercase tracking-tight">Max (HBO)</span>
+                                </div>
+                              );
+                            }
+                            if (appKey === 'hbo-max') {
+                              return (
+                                <span key={appKey} className="inline-flex items-center gap-1 bg-violet-50 hover:bg-violet-100/60 border border-violet-100 px-2 py-1 rounded-full text-[9px] font-black text-violet-700 shadow-xs transition-all">
+                                  <Tv size={9} className="stroke-[2.5]" />
+                                  <span>Max (HBO)</span>
+                                </span>
+                              );
+                            }
+                            if (appKey === 'deezer') {
+                              return (
+                                <span key={appKey} className="inline-flex items-center gap-1 bg-zinc-900 hover:bg-black border border-zinc-850 px-2 py-1 rounded-full text-[9px] font-black text-white shadow-xs transition-all">
+                                  <Music size={9} className="text-purple-400 stroke-[2.5]" />
+                                  <span>Deezer</span>
+                                </span>
+                              );
+                            }
+                            if (appKey === 'paramount') {
+                              return (
+                                <span key={appKey} className="inline-flex items-center gap-1 bg-blue-50 hover:bg-blue-100/60 border border-blue-100 px-2 py-1 rounded-full text-[9px] font-black text-blue-800 shadow-xs transition-all">
+                                  <Tv size={9} className="stroke-[2.5]" />
+                                  <span>Paramount+</span>
+                                </span>
+                              );
+                            }
+                            if (appKey === 'noggin') {
+                              return (
+                                <span key={appKey} className="inline-flex items-center gap-1 bg-orange-50 hover:bg-orange-100/60 border border-orange-100 px-2 py-1 rounded-full text-[9px] font-black text-orange-700 shadow-xs transition-all">
+                                  <Smile size={9} className="stroke-[2.5]" />
+                                  <span>Noggin by Nick Jr.</span>
+                                </span>
+                              );
+                            }
+                            if (appKey === 'clube-vantagens') {
+                              return (
+                                <span key={appKey} className="inline-flex items-center gap-1 bg-amber-50 hover:bg-amber-100/60 border border-amber-200/50 px-2 py-1 rounded-full text-[9px] font-black text-amber-700 shadow-xs transition-all w-full md:w-auto">
+                                  <Award size={10} className="stroke-[2.5] text-amber-600 shrink-0" />
+                                  <span>Clube de Vantagens Central</span>
+                                </span>
+                              );
+                            }
+                            if (appKey === 'plus-1-app') {
+                              return (
+                                <span key={appKey} className="inline-flex items-center gap-1 bg-sky-50 hover:bg-sky-100/60 border border-sky-100 px-2 py-1 rounded-full text-[9px] font-black text-sky-700 shadow-xs transition-all">
+                                  <Sparkles size={9} className="stroke-[2.5]" />
+                                  <span>+1 App à escolha</span>
+                                </span>
+                              );
+                            }
+                            if (appKey === 'plus-2-apps') {
+                              return (
+                                <span key={appKey} className="inline-flex items-center gap-1 bg-teal-50 hover:bg-teal-100/60 border border-teal-105 px-2 py-1 rounded-full text-[9px] font-black text-teal-700 shadow-xs transition-all">
+                                  <Sparkles size={9} className="stroke-[2.5]" />
+                                  <span>+2 Apps à escolha</span>
+                                </span>
+                              );
+                            }
+                            if (appKey === 'plus-5-apps') {
+                              return (
+                                <span key={appKey} className="inline-flex items-center gap-1 bg-indigo-50 hover:bg-indigo-100/60 border border-indigo-100 px-2 py-1 rounded-full text-[9px] font-black text-indigo-700 shadow-xs transition-all">
+                                  <Sparkles size={9} className="stroke-[2.5]" />
+                                  <span>+5 Apps à escolha</span>
+                                </span>
+                              );
+                            }
+                            if (appKey === 'plus-6-apps') {
+                              return (
+                                <span key={appKey} className="inline-flex items-center gap-1 bg-emerald-50 hover:bg-emerald-100/60 border border-emerald-100 px-2 py-1 rounded-full text-[9px] font-black text-emerald-700 shadow-xs transition-all">
+                                  <Sparkles size={9} className="stroke-[2.5]" />
+                                  <span>+6 Apps à escolha (MESH)</span>
+                                </span>
+                              );
+                            }
+                            return null;
+                          })}
+                        </div>
+                      </div>
+                    )
                   )}
 
                   {/* Divider */}
