@@ -244,15 +244,15 @@ export default function PlanosSection({ setCurrentPage }: PlanosSectionProps) {
                     {/* App Selection Block exactly like the screenshots */}
                     <div className="mt-4 w-full text-center sm:text-left">
                       {/* 1000 Mega with multiple custom headers */}
-                      {plano.appHeadingPremium ? (
+                    {plano.appHeadingPremium ? (
                         <div className="space-y-4">
                           {/* Standard selection */}
                           <div className="space-y-1">
                             <span className="text-[8px] sm:text-[9.5px] text-[#005cdc] font-black block leading-none tracking-tight">
                               {plano.appHeading}
                             </span>
-                            <div className="flex items-center gap-1 mt-1 justify-center sm:justify-start">
-                              {plano.appRows[0].map((badge) => renderAppBadge(badge))}
+                            <div className="flex flex-wrap items-center gap-1 mt-1 justify-center sm:justify-start w-full">
+                              {plano.appRows[0].filter(badge => badge !== 'empty').map((badge) => renderAppBadge(badge))}
                             </div>
                           </div>
                           {/* Premium selection */}
@@ -260,8 +260,8 @@ export default function PlanosSection({ setCurrentPage }: PlanosSectionProps) {
                             <span className="text-[8px] sm:text-[9.5px] text-[#005cdc] font-black block leading-none tracking-tight">
                               {plano.appHeadingPremium}
                             </span>
-                            <div className="flex items-center gap-1 mt-1 justify-center sm:justify-start">
-                              {plano.appRowsPremium?.[0].map((badge) => renderAppBadge(badge))}
+                            <div className="flex flex-wrap items-center gap-1 mt-1 justify-center sm:justify-start w-full">
+                              {plano.appRowsPremium?.[0]?.filter(badge => badge !== 'empty').map((badge) => renderAppBadge(badge))}
                             </div>
                           </div>
                         </div>
@@ -272,11 +272,15 @@ export default function PlanosSection({ setCurrentPage }: PlanosSectionProps) {
                             {plano.appHeading}
                           </span>
                           <div className="space-y-1.5 mt-1.5">
-                            {plano.appRows.map((row, idx) => (
-                              <div key={idx} className="flex items-center gap-1 justify-center sm:justify-start">
-                                {row.map((badge) => renderAppBadge(badge))}
-                              </div>
-                            ))}
+                            {plano.appRows.map((row, idx) => {
+                              const activeBadges = row.filter(badge => badge !== 'empty');
+                              if (activeBadges.length === 0) return null;
+                              return (
+                                <div key={idx} className="flex flex-wrap items-center gap-1 justify-center sm:justify-start w-full">
+                                  {activeBadges.map((badge) => renderAppBadge(badge))}
+                                </div>
+                              );
+                            })}
                           </div>
                         </div>
                       )}

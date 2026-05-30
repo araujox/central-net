@@ -27,6 +27,21 @@ export default function Navbar({ currentPage, setCurrentPage, scrollSection }: N
     return () => window.removeEventListener('scroll', handleScroll);
   }, []);
 
+  useEffect(() => {
+    const handleOutsideClick = (e: MouseEvent) => {
+      const target = e.target as HTMLElement;
+      if (!target.closest('.nav-dropdown-trigger') && !target.closest('.nav-dropdown-menu')) {
+        setActiveDropdown(null);
+      }
+    };
+    document.addEventListener('click', handleOutsideClick);
+    return () => document.removeEventListener('click', handleOutsideClick);
+  }, []);
+
+  const toggleDropdown = (dropdown: 'paraVoce' | 'paraEmpresas' | 'atendimento') => {
+    setActiveDropdown(prev => prev === dropdown ? null : dropdown);
+  };
+
   const handleNav = (target: 'home' | 'assine' | 'gps' | 'cnmovel' | 'dedicado' | 'ponto' | 'temporario' | 'contratos', sectionIdOrTab?: string) => {
     const isTab = sectionIdOrTab && ['residencial', 'gamer', 'casa-conectada', 'radio', 'empresarial'].includes(sectionIdOrTab);
     
@@ -81,14 +96,14 @@ export default function Navbar({ currentPage, setCurrentPage, scrollSection }: N
             </button>
  
             {/* Para Você Dropdown */}
-            <div 
-              className="relative"
-              onMouseEnter={() => setActiveDropdown('paraVoce')}
-              onMouseLeave={() => setActiveDropdown(null)}
-            >
+            <div className="relative">
               <button
                 id="nav-para-voce"
-                className={`px-3 py-2 rounded-lg flex items-center gap-1 transition-colors hover:text-[#FFCC00] cursor-pointer ${
+                onClick={(e) => {
+                  e.stopPropagation();
+                  toggleDropdown('paraVoce');
+                }}
+                className={`px-3 py-2 rounded-lg flex items-center gap-1 transition-colors hover:text-[#FFCC00] cursor-pointer nav-dropdown-trigger ${
                   activeDropdown === 'paraVoce' ? 'text-[#FFCC00]' : 'text-white'
                 }`}
               >
@@ -96,7 +111,7 @@ export default function Navbar({ currentPage, setCurrentPage, scrollSection }: N
               </button>
  
               {activeDropdown === 'paraVoce' && (
-                <div className="absolute left-0 mt-2.5 w-64 bg-[#0051C2] border border-white/10 rounded-2xl shadow-2xl p-2 animate-fadeIn z-50 text-left">
+                <div className="absolute left-0 mt-2.5 w-64 bg-[#0051C2] border border-white/10 rounded-2xl shadow-2xl p-2 animate-fadeIn z-50 text-left nav-dropdown-menu">
                   <button onClick={() => handleNav('assine', 'residencial')} className="w-full text-left px-4 py-2.5 hover:bg-white/10 rounded-xl flex items-center gap-3 text-white cursor-pointer">
                     <Wifi size={15} className="text-[#FFCC00]" />
                     <span className="font-bold text-xs">Fibra Óptica</span>
@@ -130,14 +145,14 @@ export default function Navbar({ currentPage, setCurrentPage, scrollSection }: N
             </div>
  
             {/* Para Empresas Dropdown */}
-            <div 
-              className="relative"
-              onMouseEnter={() => setActiveDropdown('paraEmpresas')}
-              onMouseLeave={() => setActiveDropdown(null)}
-            >
+            <div className="relative">
               <button
                 id="nav-para-empresas"
-                className={`px-3 py-2 rounded-lg flex items-center gap-1 transition-colors hover:text-[#FFCC00] cursor-pointer ${
+                onClick={(e) => {
+                  e.stopPropagation();
+                  toggleDropdown('paraEmpresas');
+                }}
+                className={`px-3 py-2 rounded-lg flex items-center gap-1 transition-colors hover:text-[#FFCC00] cursor-pointer nav-dropdown-trigger ${
                   activeDropdown === 'paraEmpresas' ? 'text-[#FFCC00]' : 'text-white'
                 }`}
               >
@@ -145,7 +160,7 @@ export default function Navbar({ currentPage, setCurrentPage, scrollSection }: N
               </button>
  
               {activeDropdown === 'paraEmpresas' && (
-                <div className="absolute left-0 mt-2.5 w-60 bg-[#0051C2] border border-white/10 rounded-2xl shadow-2xl p-2 z-50 text-left">
+                <div className="absolute left-0 mt-2.5 w-60 bg-[#0051C2] border border-white/10 rounded-2xl shadow-2xl p-2 z-50 text-left nav-dropdown-menu">
                   <button onClick={() => handleNav('dedicado')} className="w-full text-left px-4 py-2.5 hover:bg-white/10 rounded-xl text-white cursor-pointer">
                     <span className="font-bold text-xs">Link Dedicado</span>
                   </button>
@@ -163,14 +178,14 @@ export default function Navbar({ currentPage, setCurrentPage, scrollSection }: N
             </div>
  
             {/* Atendimento Dropdown */}
-            <div 
-              className="relative"
-              onMouseEnter={() => setActiveDropdown('atendimento')}
-              onMouseLeave={() => setActiveDropdown(null)}
-            >
+            <div className="relative">
               <button
                 id="nav-atendimento"
-                className={`px-3 py-2 rounded-lg flex items-center gap-1 transition-colors hover:text-[#FFCC00] cursor-pointer ${
+                onClick={(e) => {
+                  e.stopPropagation();
+                  toggleDropdown('atendimento');
+                }}
+                className={`px-3 py-2 rounded-lg flex items-center gap-1 transition-colors hover:text-[#FFCC00] cursor-pointer nav-dropdown-trigger ${
                   activeDropdown === 'atendimento' ? 'text-[#FFCC00]' : 'text-white'
                 }`}
               >
@@ -178,7 +193,7 @@ export default function Navbar({ currentPage, setCurrentPage, scrollSection }: N
               </button>
  
               {activeDropdown === 'atendimento' && (
-                <div className="absolute left-0 mt-2.5 w-60 bg-[#0051C2] border border-white/10 rounded-2xl shadow-2xl p-2 z-50 text-left">
+                <div className="absolute left-0 mt-2.5 w-60 bg-[#0051C2] border border-white/10 rounded-2xl shadow-2xl p-2 z-50 text-left nav-dropdown-menu">
                   <button onClick={() => handleNav('home', 'sobre')} className="w-full text-left px-4 py-2.5 hover:bg-white/10 rounded-xl text-white cursor-pointer">
                     <span className="font-bold text-xs">Sobre a CentralNet</span>
                   </button>
