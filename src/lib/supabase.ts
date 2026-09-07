@@ -5,14 +5,23 @@
 
 import { createClient } from '@supabase/supabase-js';
 
-// Environment variables from Vite (prefixed with VITE_)
-const supabaseUrl = import.meta.env.VITE_SUPABASE_URL || '';
-const supabaseAnonKey = import.meta.env.VITE_SUPABASE_ANON_KEY || '';
+// Environment variables from Vite / Vercel
+// Suporta tanto o prefixo VITE_ quanto os nomes sem prefixo definidos na Vercel
+const supabaseUrl = 
+  import.meta.env.VITE_SUPABASE_URL || 
+  import.meta.env.VITE_URL_SUPABASE || 
+  (import.meta.env as any).URL_SUPABASE || 
+  '';
+
+const supabaseAnonKey = 
+  import.meta.env.VITE_SUPABASE_ANON_KEY || 
+  import.meta.env.VITE_SUPABASE_ANON_KEY || 
+  (import.meta.env as any).SUPABASE_ANON_KEY || 
+  '';
 
 export const isSupabaseConfigured = Boolean(
   supabaseUrl && 
   supabaseAnonKey && 
-  supabaseUrl !== 'https://sua-url-aqui.supabase.co' &&
   supabaseUrl.startsWith('https://')
 );
 
