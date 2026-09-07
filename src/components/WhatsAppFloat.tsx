@@ -5,9 +5,10 @@
 
 import { useEffect, useState } from 'react';
 import { MessageCircle, X } from 'lucide-react';
-import { CONTATO_CENTRALNET } from '../types';
+import { useCMS } from '../context/CMSContext';
 
 export default function WhatsAppFloat() {
+  const { data } = useCMS();
   const [showTooltip, setShowTooltip] = useState(false);
 
   useEffect(() => {
@@ -38,7 +39,7 @@ export default function WhatsAppFloat() {
 
       <a
         id="whatsapp-floater"
-        href={CONTATO_CENTRALNET.whatsappUrl}
+        href={data.contato.whatsappUrl}
         target="_blank"
         referrerPolicy="no-referrer"
         rel="noopener noreferrer"

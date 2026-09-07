@@ -5,9 +5,10 @@
 
 import { useState, FormEvent } from 'react';
 import { Phone, MapPin, Clock, Send, CheckCircle, MessageSquare, Instagram, Facebook } from 'lucide-react';
-import { CONTATO_CENTRALNET } from '../types';
+import { useCMS } from '../context/CMSContext';
 
 export default function Contato() {
+  const { data } = useCMS();
   const [formData, setFormData] = useState({
     nome: '',
     email: '',
@@ -63,13 +64,13 @@ export default function Contato() {
                 <div className="space-y-1">
                   <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Telefone & WhatsApp</p>
                   <a 
-                    href={CONTATO_CENTRALNET.whatsappUrl}
+                    href={data.contato.whatsappUrl}
                     target="_blank"
                     referrerPolicy="no-referrer"
                     rel="noopener noreferrer"
                     className="text-sm font-bold text-slate-800 hover:text-orange-500 transition-colors block"
                   >
-                    {CONTATO_CENTRALNET.telefone} (Segunda a Sábado)
+                    {data.contato.telefone} (Segunda a Sábado)
                   </a>
                   <p className="text-[11px] text-emerald-600 font-bold">✔ Suporte via WhatsApp ativo até as 22h todos os dias</p>
                 </div>
@@ -83,7 +84,7 @@ export default function Contato() {
                 <div className="space-y-1">
                   <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Escritório Central</p>
                   <p className="text-xs text-slate-700 leading-relaxed font-semibold">
-                    {CONTATO_CENTRALNET.endereco}
+                    {data.contato.endereco}
                   </p>
                   <p className="text-[11px] text-slate-400 block pt-0.5">Visite nossa central para solicitar faturas presenciais de comodato.</p>
                 </div>
@@ -97,7 +98,7 @@ export default function Contato() {
                 <div className="space-y-1">
                   <p className="text-[10px] font-bold text-slate-400 uppercase tracking-widest">Horário Comercial</p>
                   <p className="text-xs text-slate-700 leading-relaxed font-semibold">
-                    {CONTATO_CENTRALNET.horario}
+                    {data.contato.horario}
                   </p>
                 </div>
               </div>
@@ -108,7 +109,7 @@ export default function Contato() {
               <p className="text-xs font-bold text-slate-500 uppercase tracking-wider">Acompanhe-nos nas Redes Sociais</p>
               <div className="flex gap-2">
                 <a 
-                  href={CONTATO_CENTRALNET.redesSociais.instagram}
+                  href={data.contato.instagram}
                   target="_blank"
                   referrerPolicy="no-referrer"
                   rel="noopener noreferrer"
@@ -118,7 +119,7 @@ export default function Contato() {
                   <Instagram size={18} />
                 </a>
                 <a 
-                  href={CONTATO_CENTRALNET.redesSociais.facebook}
+                  href={data.contato.facebook}
                   target="_blank"
                   referrerPolicy="no-referrer"
                   rel="noopener noreferrer"

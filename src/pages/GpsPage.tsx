@@ -5,13 +5,15 @@
 
 import { useState } from 'react';
 import { Shield, MapPin, Eye, Lock, RefreshCw, Layers, Truck, Smartphone, ChevronRight, Check, Star, CornerDownRight, Play, ArrowLeft, Key, Zap } from 'lucide-react';
-import { CONTATO_CENTRALNET, DEPOIMENTOS_CENTRALNET } from '../types';
+import { DEPOIMENTOS_CENTRALNET } from '../types';
+import { useCMS } from '../context/CMSContext';
 
 interface GpsPageProps {
   setCurrentPage: (page: 'home' | 'assine' | 'gps' | 'cnmovel' | 'dedicado' | 'ponto' | 'temporario', tab?: 'residencial' | 'gamer' | 'casa-conectada' | 'radio' | 'empresarial') => void;
 }
 
 export default function GpsPage({ setCurrentPage }: GpsPageProps) {
+  const { data } = useCMS();
   const [activePlan, setActivePlan] = useState<'individual' | 'frota'>('individual');
 
   const depoimentosGps = DEPOIMENTOS_CENTRALNET.filter(d => d.tipo === 'gps' || d.id === 'd3');
@@ -153,7 +155,7 @@ export default function GpsPage({ setCurrentPage }: GpsPageProps) {
 
             <div className="flex flex-col sm:flex-row justify-center lg:justify-start gap-4 pt-4">
               <a
-                href={CONTATO_CENTRALNET.whatsappUrl}
+                href={data.contato.whatsappUrl}
                 target="_blank"
                 referrerPolicy="no-referrer"
                 rel="noopener noreferrer"
@@ -414,7 +416,7 @@ export default function GpsPage({ setCurrentPage }: GpsPageProps) {
               <Smartphone size={14} />
             </a>
             <a
-              href={CONTATO_CENTRALNET.whatsappUrl}
+              href={data.contato.whatsappUrl}
               target="_blank"
               referrerPolicy="no-referrer"
               rel="noopener noreferrer"

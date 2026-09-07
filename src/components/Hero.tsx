@@ -5,48 +5,35 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { ChevronLeft, ChevronRight, MessageCircle } from 'lucide-react';
-import { CONTATO_CENTRALNET } from '../types';
+import { useCMS, BannerItem } from '../context/CMSContext';
 
 interface HeroProps {
   setCurrentPage: (page: 'home' | 'assine' | 'gps' | 'cnmovel' | 'dedicado' | 'ponto' | 'temporario' | 'contratos', tab?: 'residencial' | 'gamer' | 'casa-conectada' | 'radio' | 'empresarial') => void;
 }
 
-const HERO_SLIDES = [
-  {
-    image: '/Captura de tela 2026-05-30 102302.png',
-    alt: 'Internet acompanha sua rotina',
-    target: 'assine',
-    tab: 'residencial' as const
-  },
-  {
-    image: '/Captura de tela 2026-05-30 102321.png',
-    alt: 'A internet mais rápida da região',
-    target: 'assine',
-    tab: 'gamer' as const
-  },
-  {
-    image: '/Captura de tela 2026-05-30 102422.png',
-    alt: 'Benefícios e Planos CentralNet',
-    target: 'cnmovel',
-    tab: undefined
-  }
-];
-
 export default function Hero({ setCurrentPage }: HeroProps) {
+  const { data } = useCMS();
   const [activeIdx, setActiveIdx] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
   const autoplayRef = useRef<NodeJS.Timeout | null>(null);
 
+  // Active banners from CMS sorted by order
+  const activeBanners = data.banners
+    .filter((b) => b.ativo)
+    .sort((a, b) => a.ordem - b.ordem);
+
+  const slides = activeBanners.length > 0 ? activeBanners : data.banners;
+
   const nextSlide = () => {
-    setActiveIdx((prev) => (prev + 1) % HERO_SLIDES.length);
+    setActiveIdx((prev) => (prev + 1) % slides.length);
   };
 
   const prevSlide = () => {
-    setActiveIdx((prev) => (prev - 1 + HERO_SLIDES.length) % HERO_SLIDES.length);
+    setActiveIdx((prev) => (prev - 1 + slides.length) % slides.length);
   };
 
   useEffect(() => {
-    if (!isHovered) {
+    if (!isHovered && slides.length > 1) {
       autoplayRef.current = setInterval(() => {
         nextSlide();
       }, 6000);
@@ -56,10 +43,14 @@ export default function Hero({ setCurrentPage }: HeroProps) {
         clearInterval(autoplayRef.current);
       }
     };
-  }, [isHovered]);
+  }, [isHovered, slides.length]);
 
-  const handleSlideClick = (slide: typeof HERO_SLIDES[0]) => {
-    if (slide.target) {
+  const handleSlideClick = (slide: BannerItem) => {
+    if (slide.target === 'externo' && slide.externalUrl) {
+      window.open(slide.externalUrl, '_blank', 'noreferrer,noopener');
+      return;
+    }
+    if (slide.target && slide.target !== 'externo') {
       setCurrentPage(slide.target as any, slide.tab);
       window.scrollTo({ top: 0, behavior: 'smooth' });
     }
@@ -77,11 +68,11 @@ export default function Hero({ setCurrentPage }: HeroProps) {
         {/* Slides Track */}
         <div 
           className="flex h-full w-full transition-transform duration-700 ease-in-out"
-          style={{ transform: `translateX(-${activeIdx * 100}%)` }}
+          style={{ transform: `translateX(-${(activeIdx % slides.length) * 100}%)` }}
         >
-          {HERO_SLIDES.map((slide, index) => (
+          {slides.map((slide) => (
             <div 
-              key={index} 
+              key={slide.id} 
               onClick={() => handleSlideClick(slide)}
               className="w-full h-full shrink-0 relative cursor-pointer active:scale-99 transition-transform duration-150"
             >
@@ -96,26 +87,30 @@ export default function Hero({ setCurrentPage }: HeroProps) {
         </div>
 
         {/* Overlay Navigation Arrows */}
-        <button
-          onClick={(e) => { e.stopPropagation(); prevSlide(); }}
-          className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-black/30 hover:bg-black/60 text-white flex items-center justify-center transition-all duration-300 md:opacity-0 group-hover:opacity-100 z-20 backdrop-blur-xs cursor-pointer hover:scale-105 active:scale-95"
-          aria-label="Slide anterior"
-        >
-          <ChevronLeft size={24} className="stroke-[2.5]" />
-        </button>
+        {slides.length > 1 && (
+          <>
+            <button
+              onClick={(e) => { e.stopPropagation(); prevSlide(); }}
+              className="absolute left-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-black/30 hover:bg-black/60 text-white flex items-center justify-center transition-all duration-300 md:opacity-0 group-hover:opacity-100 z-20 backdrop-blur-xs cursor-pointer hover:scale-105 active:scale-95"
+              aria-label="Slide anterior"
+            >
+              <ChevronLeft size={24} className="stroke-[2.5]" />
+            </button>
 
-        <button
-          onClick={(e) => { e.stopPropagation(); nextSlide(); }}
-          className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-black/30 hover:bg-black/60 text-white flex items-center justify-center transition-all duration-300 md:opacity-0 group-hover:opacity-100 z-20 backdrop-blur-xs cursor-pointer hover:scale-105 active:scale-95"
-          aria-label="Próximo slide"
-        >
-          <ChevronRight size={24} className="stroke-[2.5]" />
-        </button>
+            <button
+              onClick={(e) => { e.stopPropagation(); nextSlide(); }}
+              className="absolute right-4 top-1/2 -translate-y-1/2 w-12 h-12 rounded-full bg-black/30 hover:bg-black/60 text-white flex items-center justify-center transition-all duration-300 md:opacity-0 group-hover:opacity-100 z-20 backdrop-blur-xs cursor-pointer hover:scale-105 active:scale-95"
+              aria-label="Próximo slide"
+            >
+              <ChevronRight size={24} className="stroke-[2.5]" />
+            </button>
+          </>
+        )}
 
         {/* Floating WhatsApp Quick Action strictly matching Figma overlay design */}
         <div className="absolute right-6 bottom-6 z-20 hidden md:block group-hover:scale-102 transition-transform">
           <a
-            href={CONTATO_CENTRALNET.whatsappUrl}
+            href={data.contato.whatsappUrl}
             target="_blank"
             referrerPolicy="no-referrer"
             rel="noopener noreferrer"
@@ -129,18 +124,20 @@ export default function Hero({ setCurrentPage }: HeroProps) {
         </div>
 
         {/* Bottom Pager Dots */}
-        <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2.5 z-20 bg-black/10 px-4 py-2 rounded-full backdrop-blur-xs">
-          {HERO_SLIDES.map((_, index) => (
-            <button
-              key={index}
-              onClick={(e) => { e.stopPropagation(); setActiveIdx(index); }}
-              className={`h-2.5 rounded-full transition-all duration-300 cursor-pointer ${
-                index === activeIdx ? 'w-8 bg-white' : 'w-2.5 bg-white/40 hover:bg-white/60'
-              }`}
-              title={`Ir para o slide ${index + 1}`}
-            />
-          ))}
-        </div>
+        {slides.length > 1 && (
+          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 flex items-center gap-2.5 z-20 bg-black/10 px-4 py-2 rounded-full backdrop-blur-xs">
+            {slides.map((_, index) => (
+              <button
+                key={index}
+                onClick={(e) => { e.stopPropagation(); setActiveIdx(index); }}
+                className={`h-2.5 rounded-full transition-all duration-300 cursor-pointer ${
+                  index === (activeIdx % slides.length) ? 'w-8 bg-white' : 'w-2.5 bg-white/40 hover:bg-white/60'
+                }`}
+                title={`Ir para o slide ${index + 1}`}
+              />
+            ))}
+          </div>
+        )}
 
       </div>
 

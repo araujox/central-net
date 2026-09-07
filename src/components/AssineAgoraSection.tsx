@@ -4,13 +4,14 @@
  */
 
 import { Search, MapPin, CheckCircle, ArrowRight } from 'lucide-react';
-import { CIDADES_CENTRALNET } from '../types';
+import { useCMS } from '../context/CMSContext';
 
 interface AssineAgoraSectionProps {
   setCurrentPage: (page: 'home' | 'assine' | 'gps' | 'cnmovel') => void;
 }
 
 export default function AssineAgoraSection({ setCurrentPage }: AssineAgoraSectionProps) {
+  const { data } = useCMS();
   const handleVerify = () => {
     setCurrentPage('assine');
     window.scrollTo({ top: 0, behavior: 'smooth' });
@@ -32,10 +33,10 @@ export default function AssineAgoraSection({ setCurrentPage }: AssineAgoraSectio
             Assinatura sem burocracia
           </span>
           <h2 className="text-3xl sm:text-4xl lg:text-5xl font-extrabold tracking-tight font-display text-white">
-            Escolha sua cidade e encontre o plano ideal para você.
+            {data.siteContent.coberturaTitulo}
           </h2>
           <p className="text-base text-slate-300 leading-relaxed">
-            Selecione sua localidade para verificar a viabilidade imediata de internet 100% fibra óptica com ativação expressa no seu endereço.
+            {data.siteContent.coberturaSubtitulo}
           </p>
         </div>
 
@@ -46,7 +47,7 @@ export default function AssineAgoraSection({ setCurrentPage }: AssineAgoraSectio
             Cidades com Cobertura Ativa CentralNet
           </p>
           <div className="flex flex-wrap justify-center gap-2">
-            {CIDADES_CENTRALNET.map((cidade) => (
+            {data.cidades.map((cidade) => (
               <button
                 key={cidade.id}
                 onClick={handleVerify}
@@ -66,7 +67,7 @@ export default function AssineAgoraSection({ setCurrentPage }: AssineAgoraSectio
             onClick={handleVerify}
             className="inline-flex items-center gap-2 bg-orange-500 hover:bg-orange-600 text-white font-black px-8 py-4 rounded-xl shadow-xl hover:shadow-orange-500/10 transition-all duration-300 transform hover:scale-105 active:scale-95 group text-sm cursor-pointer"
           >
-            <span>Ver planos disponíveis</span>
+            <span>{data.siteContent.coberturaBotaoTexto || 'Ver planos disponíveis'}</span>
             <ArrowRight size={18} className="transform group-hover:translate-x-1 transition-transform" />
           </button>
           

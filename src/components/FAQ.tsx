@@ -4,15 +4,25 @@
  */
 
 import { useState } from 'react';
-import { HelpCircle, ChevronDown, ChevronUp } from 'lucide-react';
-import { FAQ_CENTRALNET } from '../types';
+import { HelpCircle, ChevronDown } from 'lucide-react';
+import { useCMS } from '../context/CMSContext';
 
 export default function FAQ() {
+  const { data, formatWhatsappLink } = useCMS();
   const [openIndex, setOpenIndex] = useState<number | null>(0);
 
   const toggleIndex = (index: number) => {
     setOpenIndex(openIndex === index ? null : index);
   };
+
+  // Only active FAQs sorted by ordem
+  const activeFaqs = data.faqs
+    .filter((f) => f.ativo)
+    .sort((a, b) => a.ordem - b.ordem);
+
+  const faqsToDisplay = activeFaqs.length > 0 ? activeFaqs : data.faqs;
+
+  const whatsappFaqUrl = formatWhatsappLink('Olá! Tenho uma pergunta que não encontrei no FAQ do site sobre os planos.');
 
   return (
     <section className="py-24 bg-slate-50 relative">
@@ -33,11 +43,11 @@ export default function FAQ() {
 
         {/* Accordions Container */}
         <div className="space-y-4">
-          {FAQ_CENTRALNET.map((faq, index) => {
+          {faqsToDisplay.map((faq, index) => {
             const isOpen = openIndex === index;
             return (
               <div 
-                key={index}
+                key={faq.id || index}
                 className={`bg-white rounded-2xl border transition-all duration-300 ${
                   isOpen 
                     ? 'border-blue-500/30 shadow-sm ring-1 ring-blue-500/10' 
@@ -63,7 +73,7 @@ export default function FAQ() {
                 {/* Accordion Body Expandable Panel */}
                 <div 
                   className={`overflow-hidden transition-all duration-300 ${
-                    isOpen ? 'max-h-80 border-t border-slate-100/80 Opacity-100' : 'max-h-0 opacity-0 pointer-events-none'
+                    isOpen ? 'max-h-80 border-t border-slate-100/80 opacity-100' : 'max-h-0 opacity-0 pointer-events-none'
                   }`}
                 >
                   <p className="px-6 py-5 sm:px-8 sm:py-6 text-xs sm:text-sm text-slate-600 leading-relaxed font-sans bg-slate-50/50 rounded-b-2xl">
@@ -82,11 +92,11 @@ export default function FAQ() {
             <p className="text-xs text-slate-500">Nossa equipe de atendimento humanizado está totalmente disponível para te ajudar.</p>
           </div>
           <a
-            href="https://wa.me/5581995009874?text=Ol%C3%A1%21+Tenho+uma+pergunta+que+n%C3%A3o+encontrei+no+FAQ+do+site+sobre+os+planos."
+            href={whatsappFaqUrl}
             target="_blank"
             referrerPolicy="no-referrer"
             rel="noopener noreferrer"
-            className="bg-emerald-500 hover:bg-emerald-600 text-white px-5 py-3 rounded-xl text-xs font-bold transition-all whitespace-nowrap inline-flex items-center gap-1.5 shadow-sm"
+            className="bg-emerald-500 hover:bg-emerald-600 text-white px-5 py-3 rounded-xl text-xs font-bold transition-all whitespace-nowrap inline-flex items-center gap-1.5 shadow-sm cursor-pointer"
           >
             Perguntar no WhatsApp
           </a>

@@ -5,51 +5,43 @@
 
 import { useState, useEffect, useRef } from 'react';
 import { TrendingUp, LifeBuoy, Sparkles, Wallet, Settings, ChevronLeft, ChevronRight } from 'lucide-react';
+import { useCMS } from '../context/CMSContext';
 
-const BENEFICIOS_FIGMA = [
-  {
-    icon: TrendingUp,
-    titulo: '100% Fibra Óptica',
-    descricao: 'Internet de verdade, com fibra óptica do início ao fim, garantindo mais velocidade, estabilidade e qualidade no seu dia a dia.',
-  },
-  {
-    icon: LifeBuoy,
-    titulo: 'Conexão Ilimitada',
-    descricao: 'Use à vontade, sem limite de dados e sem surpresas. Navegue, jogue, assista e trabalhe sem se preocupar.',
-  },
-  {
-    icon: Sparkles,
-    titulo: 'Planos Acessíveis',
-    descricao: 'Planos que cabem no seu bolso, com ótimo custo-benefício e a velocidade que você realmente precisa.',
-  },
-  {
-    icon: Wallet,
-    titulo: 'Indique e Ganhe',
-    descricao: 'Indique um amigo, ele contrata nossa internet e você ganha um Pix. Simples assim: indicou, ganhou.',
-  },
-  {
-    icon: Settings,
-    titulo: 'Suporte Especializado',
-    descricao: 'Atendimento rápido e humano, com uma equipe pronta para resolver e cuidar da sua conexão sempre que precisar.',
-  }
-];
+const ICON_MAP: Record<string, any> = {
+  TrendingUp,
+  LifeBuoy,
+  Sparkles,
+  Wallet,
+  Settings,
+};
 
 export default function Beneficios() {
+  const { data } = useCMS();
   const [activeIdx, setActiveIdx] = useState(0);
   const [isHovered, setIsHovered] = useState(false);
   const autoplayRef = useRef<NodeJS.Timeout | null>(null);
 
+  const diferenciaisList = data.siteContent.diferenciais.map((d: any, index: number) => {
+    const iconKeys = ['TrendingUp', 'LifeBuoy', 'Sparkles', 'Wallet', 'Settings'];
+    const resolvedIcon = ICON_MAP[d.iconeNome] || ICON_MAP[iconKeys[index % iconKeys.length]] || Sparkles;
+    return {
+      icon: resolvedIcon,
+      titulo: d.titulo,
+      descricao: d.descricao,
+    };
+  });
+
   const nextSlide = () => {
-    setActiveIdx((prev) => (prev + 1) % BENEFICIOS_FIGMA.length);
+    setActiveIdx((prev) => (prev + 1) % diferenciaisList.length);
   };
 
   const prevSlide = () => {
-    setActiveIdx((prev) => (prev - 1 + BENEFICIOS_FIGMA.length) % BENEFICIOS_FIGMA.length);
+    setActiveIdx((prev) => (prev - 1 + diferenciaisList.length) % diferenciaisList.length);
   };
 
   // Autoplay cycle
   useEffect(() => {
-    if (!isHovered) {
+    if (!isHovered && diferenciaisList.length > 1) {
       autoplayRef.current = setInterval(() => {
         nextSlide();
       }, 5000);
@@ -59,9 +51,10 @@ export default function Beneficios() {
         clearInterval(autoplayRef.current);
       }
     };
-  }, [isHovered]);
+  }, [isHovered, diferenciaisList.length]);
 
-  const ActiveIcon = BENEFICIOS_FIGMA[activeIdx].icon;
+  const activeItem = diferenciaisList[activeIdx] || diferenciaisList[0];
+  const ActiveIcon = activeItem?.icon || Sparkles;
 
   return (
     <section id="vem-ser-centralnet" className="py-24 bg-[#ED4E07] text-white relative overflow-hidden select-none font-sans">
@@ -85,7 +78,7 @@ export default function Beneficios() {
           
           {/* Left Column: Interactive tabs on desktop for instant navigation */}
           <div className="hidden lg:flex lg:col-span-5 flex-col gap-3.5 justify-center">
-            {BENEFICIOS_FIGMA.map((item, index) => {
+            {diferenciaisList.map((item, index) => {
               const Icon = item.icon;
               const isActive = index === activeIdx;
               return (
@@ -136,16 +129,16 @@ export default function Beneficios() {
                     <ActiveIcon size={32} className="text-[#ED4E07]" />
                   </div>
                   <span className="text-xs font-black text-[#ED4E07] uppercase bg-[#ED4E07]/10 px-3.5 py-1.5 rounded-full tracking-widest font-mono">
-                    {activeIdx + 1} de {BENEFICIOS_FIGMA.length}
+                    {activeIdx + 1} de {diferenciaisList.length}
                   </span>
                 </div>
 
                 <div className="space-y-4">
                   <h3 className="text-3xl sm:text-4xl lg:text-5xl font-sans font-medium text-[#ED4E07] leading-tight tracking-tight">
-                    {BENEFICIOS_FIGMA[activeIdx].titulo}
+                    {activeItem?.titulo}
                   </h3>
                   <p className="text-base sm:text-[18px] text-[#525252] leading-relaxed font-sans font-normal opacity-90">
-                    {BENEFICIOS_FIGMA[activeIdx].descricao}
+                    {activeItem?.descricao}
                   </p>
                 </div>
               </div>
@@ -155,7 +148,7 @@ export default function Beneficios() {
                 
                 {/* Interactive Dot indicators for click-to-nav */}
                 <div className="flex items-center gap-2">
-                  {BENEFICIOS_FIGMA.map((_, i) => (
+                  {diferenciaisList.map((_, i) => (
                     <button
                       key={i}
                       onClick={() => setActiveIdx(i)}

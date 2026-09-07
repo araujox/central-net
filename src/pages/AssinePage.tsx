@@ -78,12 +78,15 @@ const renderAppBadge = (appName: string) => {
   }
 };
 
+import { useCMS } from '../context/CMSContext';
+
 interface AssinePageProps {
   setCurrentPage: (page: 'home' | 'assine' | 'gps' | 'cnmovel', tab?: 'residencial' | 'gamer' | 'casa-conectada' | 'radio' | 'empresarial') => void;
   activeFiberTab?: 'residencial' | 'gamer' | 'casa-conectada' | 'radio' | 'empresarial';
 }
 
 export default function AssinePage({ setCurrentPage, activeFiberTab }: AssinePageProps) {
+  const { data, formatWhatsappLink } = useCMS();
   const [selectedCidade, setSelectedCidade] = useState<string>('surubim');
   const [activeTab, setActiveTab] = useState<'residencial' | 'gamer' | 'casa-conectada' | 'radio' | 'empresarial'>('residencial');
 
@@ -94,14 +97,14 @@ export default function AssinePage({ setCurrentPage, activeFiberTab }: AssinePag
     }
   }, [activeFiberTab]);
 
-  // Filter plans based on active categories
-  const planosFiltrados = PLANOS_CENTRALNET.filter(p => p.categoria === activeTab);
+  // Filter plans based on active categories and not inactive
+  const planosFiltrados = data.planos
+    .filter(p => p.categoria === activeTab && !(p as any).inativo);
 
   const handleContratar = (plano: Plano) => {
-    const cidadeNome = CIDADES_CENTRALNET.find(c => c.id === selectedCidade)?.nome || 'Surubim - PE';
-    const textMsg = `Olá! Gostaria de assinar o plano "${plano.nome}" de velocidade "${plano.velocidade}" para a cidade de "${cidadeNome}". Poderia verificar minha cobertura?`;
-    const encoded = encodeURIComponent(textMsg);
-    const whatsappLink = `https://wa.me/5581995009874?text=${encoded}`;
+    const cidadeNome = data.cidades.find(c => c.id === selectedCidade)?.nome || 'Surubim - PE';
+    const textMsg = `Olá! Gostaria de assinar o plano "${plano.nome}" de velocidade "${plano.velocidade}" por "${plano.preco}/mês" para a cidade de "${cidadeNome}". Poderia verificar minha cobertura?`;
+    const whatsappLink = formatWhatsappLink(textMsg);
     window.open(whatsappLink, '_blank', 'noreferrer,noopener');
   };
 
@@ -156,7 +159,7 @@ export default function AssinePage({ setCurrentPage, activeFiberTab }: AssinePag
 
           {/* Grid list of cities buttons selector */}
           <div className="grid grid-cols-2 sm:grid-cols-4 gap-3">
-            {CIDADES_CENTRALNET.map((cidade) => {
+            {data.cidades.map((cidade) => {
               const isSelected = selectedCidade === cidade.id;
               return (
                 <button

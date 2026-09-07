@@ -4,17 +4,19 @@
  */
 
 import { ArrowLeft, MessageSquare, Phone, ArrowRight, ShieldCheck, Headphones, Smartphone, HelpCircle, Check } from 'lucide-react';
-import { PLANOS_CNMOVEL, PlanoMovel, CONTATO_CENTRALNET } from '../types';
+import { PlanoMovel } from '../types';
+import { useCMS } from '../context/CMSContext';
 
 interface CnMovelPageProps {
   setCurrentPage: (page: 'home' | 'assine' | 'gps' | 'cnmovel') => void;
 }
 
 export default function CnMovelPage({ setCurrentPage }: CnMovelPageProps) {
+  const { data, formatWhatsappLink } = useCMS();
+
   const handleContratar = (plano: PlanoMovel) => {
     const textMsg = `Olá! Gostaria de contratar o plano CN Móvel "${plano.nome} ${plano.gigaTotal}" por R$ ${plano.preco}/mês. Como funciona a portabilidade e ativação do chip?`;
-    const encoded = encodeURIComponent(textMsg);
-    const whatsappLink = `https://wa.me/5581995009874?text=${encoded}`;
+    const whatsappLink = formatWhatsappLink(textMsg);
     window.open(whatsappLink, '_blank', 'noreferrer,noopener');
   };
 
@@ -52,7 +54,7 @@ export default function CnMovelPage({ setCurrentPage }: CnMovelPageProps) {
 
         {/* PLANS DISPLAY GRID */}
         <div className="grid sm:grid-cols-2 lg:grid-cols-3 gap-8 max-w-6xl mx-auto">
-          {PLANOS_CNMOVEL.map((plano) => {
+          {data.planosMoveis.map((plano) => {
             return (
               <div
                 key={plano.id}
@@ -194,7 +196,7 @@ export default function CnMovelPage({ setCurrentPage }: CnMovelPageProps) {
             </div>
           </div>
           <a
-            href={CONTATO_CENTRALNET.whatsappUrl}
+            href={data.contato.whatsappUrl}
             target="_blank"
             referrerPolicy="no-referrer"
             rel="noopener noreferrer"

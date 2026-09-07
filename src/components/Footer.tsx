@@ -4,7 +4,7 @@
  */
 
 import { Phone, MapPin, ArrowUpRight, ShieldCheck, Mail, Instagram, Facebook } from 'lucide-react';
-import { CONTATO_CENTRALNET } from '../types';
+import { useCMS } from '../context/CMSContext';
 import CentralNetLogo from './CentralNetLogo';
 
 interface FooterProps {
@@ -13,6 +13,7 @@ interface FooterProps {
 }
 
 export default function Footer({ setCurrentPage, scrollSection }: FooterProps) {
+  const { data } = useCMS();
   const handleNav = (target: 'home' | 'assine' | 'gps' | 'cnmovel' | 'dedicado' | 'ponto' | 'temporario' | 'contratos', sectionIdOrTab?: string) => {
     const isTab = sectionIdOrTab && ['residencial', 'gamer', 'casa-conectada', 'radio', 'empresarial'].includes(sectionIdOrTab);
     
@@ -49,28 +50,30 @@ export default function Footer({ setCurrentPage, scrollSection }: FooterProps) {
               <CentralNetLogo theme="dark" size="lg" />
             </div>
 
-            {/* About text from Figma */}
+            {/* About text from Figma / CMS */}
             <div className="space-y-4">
-              <h4 className="text-xs uppercase font-black tracking-widest text-[#FFCC00]">Sobre Nós</h4>
+              <h4 className="text-xs uppercase font-black tracking-widest text-[#FFCC00]">
+                {data.siteContent.sobreTitulo || 'Sobre Nós'}
+              </h4>
               <p className="text-[14px] leading-relaxed text-zinc-100 text-justify">
-                A CentralNet é uma empresa dedicada a fornecer acesso à internet com qualidade e eficiência, conectando nossos clientes às informações disponíveis em todo o mundo. Nosso compromisso é facilitar o acesso ao conhecimento, ampliar oportunidades e garantir uma comunicação rápida e segura, aproximando pessoas em qualquer lugar.
+                {data.siteContent.sobreTexto}
               </p>
             </div>
 
-            {/* Presencial and Online attendance from Figma */}
+            {/* Presencial and Online attendance from Figma / CMS */}
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-6 pt-2 border-t border-white/10">
               <div className="space-y-2">
                 <span className="text-xs font-black text-[#FFCC00] uppercase tracking-wider block">Atendimento Presencial:</span>
                 <p className="text-[13px] leading-normal text-slate-100 font-semibold">
-                  Segunda à Sexta: 8h às 18h<br />
-                  Sábado: 8h às 17h
+                  {data.siteContent.horarioPresencialSemana}<br />
+                  {data.siteContent.horarioPresencialSabado}
                 </p>
               </div>
 
               <div className="space-y-2">
                 <span className="text-xs font-black text-[#FFCC00] uppercase tracking-wider block">Atendimento Online:</span>
                 <p className="text-[13px] leading-normal text-slate-100 font-semibold">
-                  Domingo e Feriados: 8h às 16h
+                  {data.siteContent.horarioOnline}
                 </p>
               </div>
             </div>
@@ -110,7 +113,7 @@ export default function Footer({ setCurrentPage, scrollSection }: FooterProps) {
               <h4 className="text-xs uppercase font-black tracking-widest text-[#FFCC00] font-display">Nossas Redes Sociais:</h4>
               <div className="flex items-center gap-3">
                 <a 
-                  href={CONTATO_CENTRALNET.redesSociais.instagram}
+                  href={data.contato.instagram}
                   target="_blank"
                   referrerPolicy="no-referrer"
                   rel="noopener noreferrer"
@@ -120,7 +123,7 @@ export default function Footer({ setCurrentPage, scrollSection }: FooterProps) {
                   <Instagram size={18} />
                 </a>
                 <a 
-                  href={CONTATO_CENTRALNET.redesSociais.facebook}
+                  href={data.contato.facebook}
                   target="_blank"
                   referrerPolicy="no-referrer"
                   rel="noopener noreferrer"
@@ -154,21 +157,21 @@ export default function Footer({ setCurrentPage, scrollSection }: FooterProps) {
               <ul className="space-y-3.5 text-[14px]">
                 <li className="flex items-center gap-3 text-slate-100 hover:text-white">
                   <Mail size={16} className="text-[#FFCC00] shrink-0" />
-                  <a href="mailto:atendimento@centralnetsurubim.com.br" className="underline transition-colors">
-                    atendimento@centralnetsurubim.com.br
+                  <a href={`mailto:${data.contato.email}`} className="underline transition-colors">
+                    {data.contato.email}
                   </a>
                 </li>
                 <li className="flex items-center gap-3 text-slate-100">
                   <Phone size={16} className="text-[#FFCC00] shrink-0" />
-                  <a href="https://wa.me/5581982082627" target="_blank" rel="noopener noreferrer" className="hover:underline transition-all">
-                    (81) 9 8208-2627
+                  <a href={data.contato.whatsappUrl} target="_blank" rel="noopener noreferrer" className="hover:underline transition-all">
+                    {data.contato.whatsappLimpo}
                   </a>
                 </li>
                 <li className="flex items-center gap-3 text-slate-100">
                   <Phone size={16} className="text-[#FFCC00] shrink-0" />
-                  <a href="https://wa.me/5581995008974" target="_blank" rel="noopener noreferrer" className="hover:underline transition-all">
-                    (81) 9 9500-8974
-                  </a>
+                  <span className="text-slate-200">
+                    {data.contato.telefone}
+                  </span>
                 </li>
               </ul>
             </div>
