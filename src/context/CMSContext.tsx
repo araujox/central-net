@@ -57,6 +57,31 @@ export interface SiteContent {
   coberturaBotaoTexto: string;
 
   diferenciais: DiferencialItem[];
+
+  // Seção Aplicativo / Central do Assinante
+  appUsaImagemCustomizada: boolean;
+  appImagemUrl: string;
+  appTituloDestaque: string;
+  appTituloResto: string;
+  appDescricao: string;
+  appBeneficios: string[];
+  appSubTexto: string;
+  appGooglePlayUrl: string;
+  appAppleStoreUrl: string;
+
+  // Seção Chip CentralNet
+  chipBadge: string;
+  chipTituloLinha1: string;
+  chipTituloDestaque1: string;
+  chipTituloLinha2: string;
+  chipTituloDestaque2: string;
+  chipDescricao: string;
+  chipCard1Titulo: string;
+  chipCard1Descricao: string;
+  chipCard2Titulo: string;
+  chipCard2Descricao: string;
+  chipBotaoTexto: string;
+  chipImagemUrl: string;
 }
 
 export interface ContactSettings {
@@ -200,6 +225,39 @@ const INITIAL_SITE_CONTENT: SiteContent = {
   coberturaBotaoTexto: 'Ver planos disponíveis',
 
   diferenciais: INITIAL_DIFERENCIAIS,
+
+  // Seção Aplicativo / Central do Assinante
+  appUsaImagemCustomizada: false,
+  appImagemUrl: '',
+  appTituloDestaque: 'CENTRAL DO',
+  appTituloResto: 'Assinante',
+  appDescricao:
+    'Com o App da Central você tem autonomia para gerenciar seus planos e ter acesso a recursos exclusivos na palma da mão.',
+  appBeneficios: [
+    'Visualização e 2ª via de boletos;',
+    'Visualização de faturas;',
+    'Abrir suporte e verificação de consumo;',
+    'Solicitação de desbloqueio por confiança;',
+    'Teste de velocidade.',
+  ],
+  appSubTexto: 'Facilite pagamentos, evite filas e ligações. Com nossa Central, você consegue mais tempo!',
+  appGooglePlayUrl: 'https://play.google.com/store/apps/details?id=com.imagindev.isp.centralnet&hl=pt_BR',
+  appAppleStoreUrl: 'https://apps.apple.com/br/app/minha-centralnet/id1475042490',
+
+  // Seção Chip CentralNet
+  chipBadge: 'Internet Móvel 4G / 5G',
+  chipTituloLinha1: 'Com o',
+  chipTituloDestaque1: 'Chip CentralNet',
+  chipTituloLinha2: 'sua conexão não fica limitada ao',
+  chipTituloDestaque2: 'Wi-Fi de Casa',
+  chipDescricao:
+    'Leve a internet de ultravelocidade da CentralNet para as ruas. Conexão estável em ligações, redes sociais, mapas e streaming onde quer que você vá.',
+  chipCard1Titulo: 'Rede 5G Max',
+  chipCard1Descricao: 'Velocidade e menor latência',
+  chipCard2Titulo: 'Zero Bloqueios',
+  chipCard2Descricao: 'Navegue sem preocupações',
+  chipBotaoTexto: 'Conheça o nosso Chip',
+  chipImagemUrl: '/chip.png',
 };
 
 const INITIAL_CONTATO: ContactSettings = {

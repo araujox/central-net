@@ -5,12 +5,18 @@
 
 import { ArrowRight, Wifi, ShieldCheck, Zap } from 'lucide-react';
 import { motion } from 'motion/react';
+import { useCMS } from '../context/CMSContext';
 
 interface ChipSectionProps {
   setCurrentPage: (page: 'home' | 'assine' | 'gps' | 'cnmovel' | 'dedicado' | 'ponto' | 'temporario' | 'contratos', tab?: 'residencial' | 'gamer' | 'casa-conectada' | 'radio' | 'empresarial') => void;
 }
 
 export default function ChipCentralNetSection({ setCurrentPage }: ChipSectionProps) {
+  const { data } = useCMS();
+  const content = data.siteContent;
+
+  const chipImg = content.chipImagemUrl || '/chip.png';
+
   return (
     <section id="chip-centralnet" className="bg-[#004ecc] relative overflow-hidden select-none font-sans py-16 md:py-24 my-12 md:my-16 rounded-[40px] mx-4 sm:mx-6 lg:mx-8 shadow-2xl border border-white/10">
       
@@ -47,15 +53,15 @@ export default function ChipCentralNetSection({ setCurrentPage }: ChipSectionPro
           <div className="md:col-span-7 lg:col-span-6 text-center md:text-left space-y-6 md:space-y-8">
             <span className="inline-flex items-center gap-1.5 bg-white/10 backdrop-blur-md px-4 py-1.5 rounded-full text-xs font-bold text-white tracking-wider uppercase border border-white/10">
               <span className="w-1.5 h-1.5 rounded-full bg-[#00dd50] animate-ping" />
-              Internet Móvel 4G / 5G
+              {content.chipBadge || 'Internet Móvel 4G / 5G'}
             </span>
 
             <h2 className="text-white text-3xl sm:text-4xl lg:text-[44px] font-sans font-medium leading-[1.2] tracking-tight">
-              Com o <strong className="font-extrabold text-white">Chip CentralNet</strong>,<br /> sua conexão não fica limitada ao <strong className="font-extrabold text-white">Wi-Fi de Casa</strong>
+              {content.chipTituloLinha1 || 'Com o'} <strong className="font-extrabold text-white">{content.chipTituloDestaque1 || 'Chip CentralNet'}</strong>,<br /> {content.chipTituloLinha2 || 'sua conexão não fica limitada ao'} <strong className="font-extrabold text-white">{content.chipTituloDestaque2 || 'Wi-Fi de Casa'}</strong>
             </h2>
 
             <p className="text-blue-100 text-sm sm:text-base leading-relaxed max-w-lg mx-auto md:mx-0">
-              Leve a internet de ultravelocidade da CentralNet para as ruas. Conexão estável em ligações, redes sociais, mapas e streaming onde quer que você vá.
+              {content.chipDescricao || 'Leve a internet de ultravelocidade da CentralNet para as ruas. Conexão estável em ligações, redes sociais, mapas e streaming onde quer que você vá.'}
             </p>
 
             {/* Unique features widgets to represent value and give life */}
@@ -65,8 +71,8 @@ export default function ChipCentralNetSection({ setCurrentPage }: ChipSectionPro
                   <Wifi size={16} className="stroke-[2.5]" />
                 </div>
                 <div>
-                  <h4 className="text-xs font-bold text-white uppercase tracking-wider">Rede 5G Max</h4>
-                  <p className="text-[10px] text-blue-200">Velocidade e menor latência</p>
+                  <h4 className="text-xs font-bold text-white uppercase tracking-wider">{content.chipCard1Titulo || 'Rede 5G Max'}</h4>
+                  <p className="text-[10px] text-blue-200">{content.chipCard1Descricao || 'Velocidade e menor latência'}</p>
                 </div>
               </div>
 
@@ -75,8 +81,8 @@ export default function ChipCentralNetSection({ setCurrentPage }: ChipSectionPro
                   <ShieldCheck size={16} className="stroke-[2.5]" />
                 </div>
                 <div>
-                  <h4 className="text-xs font-bold text-white uppercase tracking-wider">Zero Bloqueios</h4>
-                  <p className="text-[10px] text-blue-200">Navegue sem preocupações</p>
+                  <h4 className="text-xs font-bold text-white uppercase tracking-wider">{content.chipCard2Titulo || 'Zero Bloqueios'}</h4>
+                  <p className="text-[10px] text-blue-200">{content.chipCard2Descricao || 'Navegue sem preocupações'}</p>
                 </div>
               </div>
             </div>
@@ -89,13 +95,13 @@ export default function ChipCentralNetSection({ setCurrentPage }: ChipSectionPro
                 }}
                 className="inline-flex items-center justify-center gap-2.5 bg-white hover:bg-slate-50 active:scale-97 text-[#004ecc] font-bold text-sm sm:text-base px-8 py-4.5 rounded-full shadow-lg hover:shadow-xl transition-all duration-300 transform hover:scale-[1.02] cursor-pointer"
               >
-                <span>Conheça o nosso Chip</span>
+                <span>{content.chipBotaoTexto || 'Conheça o nosso Chip'}</span>
                 <ArrowRight size={16} className="stroke-[2.5] text-[#004ecc]" />
               </button>
             </div>
           </div>
 
-          {/* Right Block: Dynamic SIM Card card with Rounded Borders exactly requested by user */}
+          {/* Right Block: Dynamic SIM Card card with Rounded Borders */}
           <div className="md:col-span-5 lg:col-span-6 flex justify-center items-center relative group">
             
             {/* Animated background glow behind the card */}
@@ -105,13 +111,13 @@ export default function ChipCentralNetSection({ setCurrentPage }: ChipSectionPro
             {/* Custom rounded border card presentation */}
             <div className="relative max-w-sm sm:max-w-md w-full flex justify-center z-10">
               
-              {/* Main rounded frame container containing the chip.png */}
+              {/* Main rounded frame container containing the chip image */}
               <motion.div 
                 className="relative overflow-hidden rounded-[40px] shadow-[0_25px_60px_-15px_rgba(0,0,0,0.5)] border-4 border-white/10 bg-[#004ecc] scale-100 group-hover:scale-[1.03] transition-all duration-500"
                 whileHover={{ rotate: 1.5 }}
               >
                 <img 
-                  src="/chip.png" 
+                  src={chipImg} 
                   alt="Chip CentralNet" 
                   className="w-full h-auto object-cover select-none" 
                   referrerPolicy="no-referrer"

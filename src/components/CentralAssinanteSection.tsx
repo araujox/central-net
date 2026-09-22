@@ -4,19 +4,47 @@
  */
 
 import { HelpCircle, DollarSign, Wifi, Grid, Tv, BarChart2 } from 'lucide-react';
+import { useCMS } from '../context/CMSContext';
 
 export default function CentralAssinanteSection() {
+  const { data } = useCMS();
+  const content = data.siteContent;
+
+  const usaImagemCustomizada = Boolean(content.appUsaImagemCustomizada && content.appImagemUrl);
+  const playStoreUrl = content.appGooglePlayUrl || data.contato.appGooglePlayUrl || 'https://play.google.com/store/apps/details?id=com.imagindev.isp.centralnet&hl=pt_BR';
+  const appStoreUrl = content.appAppleStoreUrl || data.contato.appAppleStoreUrl || 'https://apps.apple.com/br/app/minha-centralnet/id1475042490';
+  const beneficios = (content.appBeneficios && content.appBeneficios.length > 0)
+    ? content.appBeneficios
+    : [
+        'Visualização e 2ª via de boletos;',
+        'Visualização de faturas;',
+        'Abrir suporte e verificação de consumo;',
+        'Solicitação de desbloqueio por confiança;',
+        'Teste de velocidade.',
+      ];
+
   return (
     <section id="central-assinante" className="py-20 sm:py-28 bg-white overflow-hidden">
       <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
         <div className="grid lg:grid-cols-12 gap-12 lg:gap-16 items-center">
           
-          {/* LEFT SIDE: Custom 2.5D CSS Smartphone Mockups to match the user's photo */}
+          {/* LEFT SIDE: Custom Image or CSS Smartphone Mockups */}
           <div className="lg:col-span-6 flex justify-center items-center py-6 sm:py-10">
-            <div className="relative flex items-center justify-center w-[290px] h-[360px] sm:w-[350px] sm:h-[440px]">
-              
-              {/* Decorative accent background blob */}
-              <div className="absolute inset-0 bg-orange-100/50 rounded-full filter blur-3xl -z-10 transform scale-90"></div>
+            {usaImagemCustomizada ? (
+              <div className="relative flex items-center justify-center max-w-md w-full">
+                {/* Decorative accent background blob */}
+                <div className="absolute inset-0 bg-orange-100/60 rounded-full filter blur-3xl -z-10 transform scale-90"></div>
+                <img
+                  src={content.appImagemUrl}
+                  alt={content.appTituloResto || 'Aplicativo CentralNet'}
+                  className="max-h-[460px] w-auto max-w-full object-contain drop-shadow-2xl rounded-3xl transition-transform duration-300 hover:scale-[1.02]"
+                />
+              </div>
+            ) : (
+              <div className="relative flex items-center justify-center w-[290px] h-[360px] sm:w-[350px] sm:h-[440px]">
+                {/* Decorative accent background blob */}
+                <div className="absolute inset-0 bg-orange-100/50 rounded-full filter blur-3xl -z-10 transform scale-90"></div>
+
               
               {/* Smartphone 1 (Left, standing in front) */}
               <div className="absolute left-1 sm:left-4 z-20 w-[155px] h-[310px] sm:w-[190px] sm:h-[380px] bg-[#f85c1c] rounded-[2.5rem] p-2 border-4 border-slate-900 shadow-2xl transition-all duration-300 hover:translate-y-[-8px]">
@@ -119,12 +147,13 @@ export default function CentralAssinanteSection() {
                     </button>
                   </div>
 
-                  {/* Bottom bar indicator */}
-                  <div className="w-12 h-1 bg-white/70 mx-auto rounded-full"></div>
+                    {/* Bottom bar indicator */}
+                    <div className="w-12 h-1 bg-white/70 mx-auto rounded-full"></div>
+                  </div>
                 </div>
-              </div>
 
-            </div>
+              </div>
+            )}
           </div>
 
           {/* RIGHT SIDE: Customized design following the picture precisely */}
@@ -135,55 +164,43 @@ export default function CentralAssinanteSection() {
               <div className="flex items-center gap-3">
                 <div className="w-10 h-0.5 bg-[#00a8cc] rounded"></div>
                 <span className="text-xs font-black tracking-widest text-[#00a8cc] uppercase">
-                  CENTRAL DO
+                  {content.appTituloDestaque || 'CENTRAL DO'}
                 </span>
               </div>
               
               <h2 className="text-4xl sm:text-5xl lg:text-6xl font-black text-[#1e1e24] tracking-tight leading-none mt-1 font-display">
-                Assinante
+                {content.appTituloResto || 'Assinante'}
               </h2>
             </div>
 
-            {/* Main paragraph copied from the image */}
+            {/* Main paragraph */}
             <p className="text-[13px] sm:text-base text-slate-600 leading-relaxed font-semibold">
-              Agora nossos clientes poderão ter os detalhes da sua internet na palma da mão! Acesse nossa central do assinante e veja os serviços tais como:
+              {content.appDescricao || 'Agora nossos clientes poderão ter os detalhes da sua internet na palma da mão! Acesse nossa central do assinante e veja os serviços tais como:'}
             </p>
 
             {/* List customized to have consistent branding, orange bullet dashes */}
             <ul className="space-y-2.5 mt-2 text-[13px] sm:text-[15px] font-bold text-slate-700">
-              <li className="flex items-start gap-3">
-                <span className="text-[#f85c1c] text-lg leading-none select-none shrink-0">–</span>
-                <span>Visualização e 2ª via de boletos;</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="text-[#f85c1c] text-lg leading-none select-none shrink-0">–</span>
-                <span>Visualização de faturas;</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="text-[#f85c1c] text-lg leading-none select-none shrink-0">–</span>
-                <span>Abrir suporte e verificação de consumo;</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="text-[#f85c1c] text-lg leading-none select-none shrink-0">–</span>
-                <span>Solicitação de desbloqueio por confiança;</span>
-              </li>
-              <li className="flex items-start gap-3">
-                <span className="text-[#f85c1c] text-lg leading-none select-none shrink-0">–</span>
-                <span>Teste de velocidade.</span>
-              </li>
+              {beneficios.map((item, idx) => (
+                <li key={idx} className="flex items-start gap-3">
+                  <span className="text-[#f85c1c] text-lg leading-none select-none shrink-0">–</span>
+                  <span>{item}</span>
+                </li>
+              ))}
             </ul>
 
-            {/* Sub-paragraph copied from the image */}
-            <p className="text-[13px] sm:text-base text-slate-600 leading-relaxed font-semibold">
-              Facilite pagamentos, evite filas e ligações. Com nossa Central, você consegue mais tempo!
-            </p>
+            {/* Sub-paragraph */}
+            {content.appSubTexto && (
+              <p className="text-[13px] sm:text-base text-slate-600 leading-relaxed font-semibold">
+                {content.appSubTexto}
+              </p>
+            )}
 
             {/* Download Badges (Play Store & App Store direct links requested by the user) */}
             <div className="flex flex-wrap items-center gap-4 pt-4">
               
               {/* Play Store Download link button */}
               <a
-                href="https://play.google.com/store/apps/details?id=com.imagindev.isp.centralnet&hl=pt_BR"
+                href={playStoreUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="transform transition-all active:scale-95 hover:scale-102 flex hover:shadow-lg rounded-lg overflow-hidden shrink-0"
@@ -211,7 +228,7 @@ export default function CentralAssinanteSection() {
 
               {/* App Store Download link button */}
               <a
-                href="https://apps.apple.com/br/app/minha-centralnet/id1475042490"
+                href={appStoreUrl}
                 target="_blank"
                 rel="noopener noreferrer"
                 className="transform transition-all active:scale-95 hover:scale-102 flex hover:shadow-lg rounded-lg overflow-hidden shrink-0"
